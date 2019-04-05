@@ -1,0 +1,361 @@
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: calc(100% - 48px);
+    background: #f2f2f2;
+    color: #6f5499;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Unica One', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+p {
+    color: #777;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.topnav {
+    background-color: #6f5499;
+    overflow: hidden;
+}
+
+.wrapper {
+    width: 500px;
+    min-height: 100%;
+    padding: 20px;
+    border: 1px solid black;
+    margin: 100px auto;
+    border-radius: 10px;
+}
+
+.input {
+    background-color: #ffffff;
+    color: #0d0d0d;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.help-block {
+    color: #d9534f;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.btn-delete {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.btn-warn {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+
+.btn-edit {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.action-btns {
+    display: flex;
+}
+
+.action-btns button {
+    border-radius: 0;
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.container {
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.backdrop {
+    /*background: black url(./styles/img/banner1.jpg) no-repeat;*/
+    background-image: url(./img/banner1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 550px;
+}
+
+.banner-text {
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+.banner-text h1 {
+    font-size: 50px;
+}
+
+.banner-text p {
+    color: #ffffff;
+    font-size: 25px;
+}
+
+.banner-btn {
+    width: 200px;
+    background: #6f5499;
+    color: white;
+}
+
+.services-panels {
+    display: flex;
+}
+
+.services-panels > div {
+    background-color: #f1f1f1;
+    width: 300px;
+    margin: 10px;
+    text-align: center;
+}
+
+.shadow {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.service-pa {
+    padding: 5px;
+    text-align: center;
+}
+
+.service-icons {
+    width: 100px;
+    height: 100px;
+}
+
+.dash-body {
+    display: flex;
+    margin-top: 20px;
+}
+
+.dash-body .side-menu {
+    width: 20%;
+}
+
+.dash-body .main-content {
+    width: 70%;
+}
+
+.sidenav {
+    position: fixed;
+    overflow-x: hidden;
+}
+
+.btn-menu-side {
+    background: #6f5499;
+    color: white;
+    font-weight: 700;
+}
+
+.events-content {
+    color: #000;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    color: black;
+}
+
+td, th {
+    /*border: 1px solid #dddddd;*/
+    text-align: left;
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    /*background-color: #dddddd;*/
+}
+
+#edit_form {
+    background: #F9F9F9;
+    padding: 25px;
+    margin: 50px 0;
+}
+
+#edit_form h3 {
+    color: #F96;
+    display: block;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+#edit_form h4 {
+    margin: 5px 0 15px;
+    display: block;
+    font-size: 13px;
+}
+
+.edit-form-group {
+    border: medium none !important;
+    margin: 0 0 10px;
+    min-width: 100%;
+    padding: 0;
+    width: 100%;
+}
+
+.edit-form-group > label {
+    margin-bottom: 20px;
+}
+
+#edit_form input[type="text"], #edit_form input[type="email"], #edit_form input[type="password"], #edit_form input[type="number"], #edit_form textarea {
+    width: 100%;
+    border: 1px solid #CCC;
+    background: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+}
+
+#edit_form input[type="text"]:hover, #edit_form input[type="email"]:hover, #edit_form input[type="password"]:hover, #edit_form input[type="number"]:hover, #edit_form textarea:hover {
+    -webkit-transition: border-color 0.3s ease-in-out;
+    -moz-transition: border-color 0.3s ease-in-out;
+    transition: border-color 0.3s ease-in-out;
+    border: 1px solid #AAA;
+}
+
+
+.edit_form_btn {
+    cursor: pointer;
+    width: 20%;
+    border: none;
+    background: #0CF;
+    color: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 3px;
+}
+
+.cancel_form_btn {
+    cursor: pointer;
+    width: 20%;
+    border: none;
+    background: #FFF;
+    color: #000;
+    margin: 0 0 5px;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 3px;
+}
+
+
+.delete_form_btn {
+    cursor: pointer;
+    width: 20%;
+    border: none;
+    background: #d9534f;
+    color: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 3px;
+}
+
+.edit_form_btn:hover {
+    background: #09C;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.events-admin {
+
+}
+
+.admin-page-actions {
+    display: flex;
+}
+
+.admin-page-actions button {
+    border-radius: 0;
+}
+
+.admin-view-event-action {
+    display: flex;
+}
+
+
+.admin-view-event-action button {
+    border-radius: 0;
+}
