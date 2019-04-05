@@ -30,20 +30,18 @@
             <li class="nav-item active">
                 <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;"class="fa fa-user"></i> Ride <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../auth/register.php"><i style ="color:darkgrey;"class="fa fa-user"></i> Ride with Shareride <span class="sr-only">(current)</span> </a>
+            </li>
+            <li class=" nav-item active">
+                <a class="nav-link" href="../auth/registerdriver.php"><i style ="color:darkgrey;"class="fa fa-car"></i> Register Driver<span class="sr-only">(current)</span> </a>
+            </li>
+
         </ul>
     </div>
 
     <div id="ra_header_container_5ca64c7c3a2e8" class="modules-container ra_header_container_5ca64c7c3a2e8  vc_custom_1528890373974"></div>
     <script type="text/javascript">(function($) {$("head").append("<style>.rella-row-shadowbox-5ca64c7c34b20{-webkit-box-shadow:;-moz-box-shadow:;box-shadow:;}</style>");})(jQuery);</script>
-
-
-
-        <form class="form-inline my-2 my-lg-0">
-            <button type="button" class="btn btn-light" <i style ="color:darkgrey; "class="fa fa-user"></i> Ride with Shareride </button>
-            <button type="button" class="btn btn-primary"><i style ="color:darkgrey; "class="fa fa-car"></i> Register Driver</button>
-        </form>
-
-        </div>
     </nav>
     <div class="container">
         <div class="row">
@@ -71,7 +69,7 @@
         </div>
 
 </div>
-        <div class="container">
+     <!--  <div class="container">
             <div class="row">
                 <div class="col-sm">
 
@@ -102,6 +100,7 @@
                 </div>
             </div>
         </div>
+        -->
         <div>
             <div style="background-color:rgba(211,211,211,0.5);">
                 <br/><br/><br/>
