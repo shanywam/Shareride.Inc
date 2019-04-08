@@ -4,7 +4,7 @@
 
 error_reporting(0);
 $host = 'localhost';
-$username = 'shareride';
+$username = 'trusty';
 $password = 'root';
 $database = 'shareride';
 
@@ -13,7 +13,7 @@ $db = new mysqli($host, $username, $password, $database);
 
 //would have given the parameter as the name of the database if only I'd created it
 
-if($db->connect(localhost, shareride, root, shareride)) {
+if($db->connect(localhost, trusty, root, shareride)) {
 
     echo "success";
 

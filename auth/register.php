@@ -7,7 +7,7 @@ $reg_user = new Auth();
 
 if ($reg_user->is_logged_in()) {
     if ($_SESSION['user_type'] == 1) {
-        $reg_user->redirect('../admin/driver_page.php');
+        $reg_user->redirect('../driver/driver_page.php');
     } else {
         $reg_user->redirect('../client/client_page.php');
     }
