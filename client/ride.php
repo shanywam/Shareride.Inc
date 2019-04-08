@@ -30,11 +30,8 @@
             <li class="nav-item active">
                 <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;"class="fa fa-user"></i> Ride <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="../auth/register.php"><i style ="color:darkgrey;"class="fa fa-user"></i> Ride with Shareride <span class="sr-only">(current)</span> </a>
-            </li>
             <li class=" nav-item active">
-                <a class="nav-link" href="../auth/registerdriver.php"><i style ="color:darkgrey;"class="fa fa-car"></i> Register Driver<span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey;"class="fa fa-r"></i> Logout <span class="sr-only">(current)</span> </a>
             </li>
         </ul>
     </div>
