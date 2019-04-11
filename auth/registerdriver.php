@@ -1,20 +1,20 @@
 <?php
-session_start();
+/*session_start();
 
-/*require_once('../backend/auth.php');
+require_once('../backend/auth.php');
 
-$reg_user = new Auth();
+$reg_user = new Connect();
 
 if ($reg_user->is_logged_in()) {
     if ($_SESSION['user_type'] == 1) {
-        $reg_user->redirect('../driver/driver_page.php');
+        $reg_user->redirect('../driver/drive.php');
     } else {
-        $reg_user->redirect('../client/client_page.php');
+        $reg_user->redirect('../client/ride.php');
     }
 }
 
 
-$name  = $phone = $origin = $destination = $capacity of vehicle = "";
+$name  = $phone = $origin = $destination = $capacityofvehicle = $form_error = "";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -25,13 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         && empty(trim($_POST["phone"]))
         && empty(trim($_POST["origin"]))
         && empty(trim($_POST["destination"]))
-        && empty(trim($_POST["capacity of vehicle"]))
+        && empty(trim($_POST["capacityofvehicle"]))
 
     ) {
         $form_error = " Fill form.";
     }
     // Validate name
-    if (strlen(trim($_POST["name"])) < 6) {
+    if (strlen(trim($_POST["name"])) < 3) {
         $name_err = "name must have at least 6 characters.";
     }
     // Validate Password
@@ -42,9 +42,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
+// If no errors submit form
+    if (
 
-    // If no errors submit form
-   {
+        empty($email_err) &&
+        empty($phone_err) &&
+        empty($password_err) &&
+        empty($confirm_password_err)
+    ) {
+
 
         $email = $_POST["email"];
 
@@ -113,7 +119,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <p class="text-center">Fill form .</p>
 
-        <p class="text-center help-block" style="color: red;"><?php echo $form_error ?></p>
+        <p class="text-center help-block" style="color: red;"></p>
+
+        <?php
+        //echo $form_error
+        ?>
 
         <form style="width: 400px;background: #fcfcfc;margin: 70px auto;">
             <div class="form-group" >

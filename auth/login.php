@@ -1,6 +1,54 @@
+<?php
+session_start();
 
+//require_once '../backend/auth.php';
 
+//$logged_user = new Connect();
 
+//if ($logged_user->is_logged_in()) {
+   // if ($_SESSION['user_type'] == 1) {
+   //     $logged_user->redirect('../driver/drive.php');
+    //} else {
+    //    $logged_user->redirect('../client/ride.php');
+   // }
+//}
+
+$email = $password = "";
+$user_type = null;
+$email_err = $password_err = $form_err = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Check if email and password are empty
+    if (empty(trim($_POST["email"]))) {
+        $email_err = "Please provide an email to continue.";
+    } else {
+        $email = trim($_POST["email"]);
+    }
+
+    if (empty(trim($_POST["password"]))) {
+        $password_err = "Please enter your password.";
+    } else {
+        $password = trim($_POST["password"]);
+    }
+
+    // Validate credentials on DB;
+    if (empty($email_err) && empty($password_err)) {
+        if ($logged_user->login($email, $password)) {
+
+            if ($_SESSION['user_type'] == 1) {
+                // admin/ event planner
+                $logged_user->redirect('../driver/drive.php');
+            } elseif ($_SESSION['user_type'] == 2) {
+                // customer
+                $logged_user->redirect('../client/ride.php');
+            }
+        }else{
+            $form_err = "Please check your details are correct";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +60,7 @@
     <title>Shareride.Inc &#8211; Kenya&#039;s Taxi App &#8211; Based in Nairobi</title>
 
     <link rel="stylesheet" href="../style/main.css">
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -31,28 +80,37 @@
             <li class=" nav-item active">
                 <a class="nav-link" href="../auth/login.php"><i style ="color:darkgrey;"class="fa fa-"></i> Login <span class="sr-only">(current)</span> </a>
             </li>
-
         </ul>
+
     </div>
 
     <div id="ra_header_container_5ca64c7c3a2e8" class="modules-container ra_header_container_5ca64c7c3a2e8  vc_custom_1528890373974"></div>
     <script type="text/javascript">(function($) {$("head").append("<style>.rella-row-shadowbox-5ca64c7c34b20{-webkit-box-shadow:;-moz-box-shadow:;box-shadow:;}</style>");})(jQuery);</script>
 </nav>
 
-
-<form>
-    <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+<div class="container">
+    <div class="wrapper">
+        <h2 class="text-center">Welcome to Shareride.Inc</h2>
+        <p class="text-center" style="color: red;"><?php echo $form_err ?></p>
+        <form action="login.php" method="post">
+            <div class=" <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                <!--                <label>Email</label>-->
+                <input type="email" name="email" class="input" placeholder="Email Address"
+                       value="<?php echo $email; ?>">
+                <span class="help-block" style="text-align: center;"><?php echo $email_err; ?></span>
+            </div>
+            <div class=" <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                <!--                <label>Password</label>-->
+                <input type="password" name="password" placeholder="password" class="input">
+                <span class="help-block" style="text-align: center;"><?php echo $password_err; ?></span>
+            </div>
+            <div class="">
+                <input type="submit" class="btn btn-primary input" value="Login">
+            </div>
+            <p class="text-center">Don't have an account? <a href="register.php">REGISTER</a>.</p>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
-    <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
 </body>
 </html>
+

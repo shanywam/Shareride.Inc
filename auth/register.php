@@ -1,37 +1,46 @@
 <?php
 session_start();
 
-/*require_once('../backend/auth.php');
+//require_once('../backend/auth.php');
 
-$reg_user = new Auth();
+//$reg_user = new Connect();
 
-if ($reg_user->is_logged_in()) {
-    if ($_SESSION['user_type'] == 1) {
-        $reg_user->redirect('../driver/driver_page.php');
-    } else {
-        $reg_user->redirect('../client/client_page.php');
-    }
-}
+//if ($reg_user->is_logged_in()) {
+ //   if ($_SESSION['user_type'] == 1) {
+   //     $reg_user->redirect('../driver/drive.php');
+   // } else {
+   //     $reg_user->redirect('../client/ride.php');
+ //   }
+//}
 
 
-$name  = $email = $phone = $password = $confirm_password = $form_error = "";
-$name_err = $email_err = $phone_err = $password_err = $confirm_password_err = $form_err = "";
+$firstname = $lastname = $email = $phone = $password = $confirm_password = $form_error = "";
+$firstname_err = $lastname_err = $email_err = $phone_err = $password_err = $confirm_password_err = $form_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate Form
     if (
-        empty(trim($_POST["name"]))
+        empty(trim($_POST["firstname"]))
+        && empty(trim($_POST["lastname"]))
         && empty(trim($_POST["email"]))
         && empty(trim($_POST["phone"]))
         && empty(trim($_POST["password"]))
         && empty(trim($_POST["confirm_password"]))
     ) {
-        $form_error = "Please fill the form before submitting.";
+        $form_error = "Please fill the form .";
     }
-    // Validate name
-    if (strlen(trim($_POST["name"])) < 6) {
-        $name_err = "name must have at least 6 characters.";
+    // Validate firstname
+    if (strlen(trim($_POST["firstname"])) < 3) {
+        $firstname_err = "firstname must have at least 3 characters.";
+    } else {
+        $firstname = trim($_POST["firstname"]);
+    }
+    // Validate lastname
+    if (strlen(trim($_POST["lastname"])) < 3) {
+        $lastname_err = "lastname must have at least 3 characters.";
+    } else {
+        $lastname = trim($_POST["lastname"]);
     }
     // Validate Password
     if (strlen(trim($_POST["password"])) < 6) {
@@ -51,7 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If no errors submit form
     if (
-        empty($name_err) &&
+        empty($firstname_err) &&
+        empty($lastname_err) &&
         empty($email_err) &&
         empty($phone_err) &&
         empty($password_err) &&
@@ -69,19 +79,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mysqli_stmt_num_rows($stmt) == 1) {
             $email_err = "This user email provided already exists.";
         } else {
-            $name = trim($_POST["name"]);
+            $firstname = trim($_POST["firstname"]);
+            $lastname = trim($_POST["lastname"]);
             $email = trim($_POST["email"]);
             $phone = trim($_POST["phone"]);
             $pass = password_hash(trim($_POST["password"]), PASSWORD_DEFAULT);
 
-            if ($reg_user->register($name,  $email, $phone, $pass, 2)){
+            if ($reg_user->register($firstname, $lastname, $email, $phone, $pass, 2)){
                 $this->redirect("../auth/login.php");
             }else{
                 $form_err = "Please check your details are correct";
             }
         }
     }
-}*/
+}
 ?>
 
 <!DOCTYPE html>
@@ -95,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Shareride.Inc &#8211; Kenya&#039;s Taxi App &#8211; Based in Nairobi</title>
 
     <link rel="stylesheet" href="../style/main.css">
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -115,6 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a class="nav-link" href="../auth/login.php"><i style ="color:darkgrey;"class="fa fa-"></i> Login <span class="sr-only">(current)</span> </a>
             </li>
         </ul>
+
     </div>
 
     <div id="ra_header_container_5ca64c7c3a2e8" class="modules-container ra_header_container_5ca64c7c3a2e8  vc_custom_1528890373974"></div>
@@ -122,23 +135,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 
 
+
 <div class="container">
     <div class="wrapper">
-        <h3 class="text-center">Welcome to Shareride.Inc</h3>
+        <h2 class="text-center">welcome to Shareride.Inc</h2>
 
         <p class="text-center">Please fill this form to create an account.</p>
 
-        <p class="text-center help-block" style="color: red;"><?php echo $form_error ?></p>
+        <p class="text-center help-block" style="color: red;"></p>
+
+        <?php
+        //echo $form_error
+        ?>
 
         <form action="register.php" method="post">
 
-            <div class="<?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
+            <div class="<?php echo (!empty($firstname_err)) ? 'has-error' : ''; ?>">
                 <!--                <label>First Name: </label>-->
-                <input type="text" name="name" class="input" placeholder=" Name"
-                       value="<?php echo $name; ?>">
-                <span class="help-block text-center"><?php echo $name_err; ?></span>
+                <input type="text" name="first_name" class="input" placeholder="First Name"
+                       value="<?php echo $firstname; ?>">
+                <span class="help-block text-center"><?php echo $firstname_err; ?></span>
             </div>
 
+            <div class="<?php echo (!empty($lastname_err)) ? 'has-error' : ''; ?>">
+                <!--                <label>Last Name: </label>-->
+                <input type="text" name="last_name" class="input" placeholder="Last Name"
+                       value="<?php echo $lastname; ?>">
+                <span class="help-block text-center"><?php echo $lastname_err; ?></span>
+            </div>
 
             <div class="<?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
                 <!--                <label>Email: </label>-->
@@ -177,3 +201,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 </body>
 </html>
+
+

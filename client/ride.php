@@ -10,6 +10,7 @@
     <script src ="../js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <title>Shareride.Inc &#8211; Kenya&#039;s Taxi App &#8211; Based in Nairobi</title>
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Handlee|Merienda|Pacifico|Playball" rel="stylesheet">
 
 </head>
 <body>
@@ -22,16 +23,16 @@
     <div id="main-header-nav" class="collapse navbar-collapse">
         <ul id="menu-main-nav" class="nav navbar-nav main-nav underlined weight-light">
             <li class="nav-item active">
-                <a class="nav-link" href="../index.php"><i style ="color:darkgrey ;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="../index.php"><i style ="color:darkgrey ;font-family: 'Dancing Script', cursive;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="../driver/drive.php"><i style ="color:darkgrey ;"class="fa fa-car"></i> Drive <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="../driver/drive.php"><i style ="color:darkgrey; font-family: 'Dancing Script', cursive;"class="fa fa-car"></i> Drive <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;"class="fa fa-user"></i> Ride <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;font-family: 'Dancing Script', cursive; "class="fa fa-user"></i> Ride <span class="sr-only">(current)</span></a>
             </li>
             <li class=" nav-item active">
-                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey;"class="fa fa-r"></i> Logout <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey; font-family: 'Dancing Script', cursive;"class="fa fa-r"></i> Logout <span class="sr-only">(current)</span> </a>
             </li>
         </ul>
     </div>
