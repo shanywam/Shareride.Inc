@@ -1,17 +1,17 @@
 <?php
 session_start();
 
-//require_once('../backend/auth.php');
+require_once('../backend/auth.php');
 
-//$reg_user = new Connect();
+$reg_user = new Connect();
 
-//if ($reg_user->is_logged_in()) {
- //   if ($_SESSION['user_type'] == 1) {
-   //     $reg_user->redirect('../driver/drive.php');
-   // } else {
-   //     $reg_user->redirect('../client/ride.php');
- //   }
-//}
+if ($reg_user->is_logged_in()) {
+   if ($_SESSION['user_type'] == 1) {
+       $reg_user->redirect('../driver/drive.php');
+   } else {
+        $reg_user->redirect('../client/ride.php');
+  }
+}
 
 
 $firstname = $lastname = $email = $phone = $password = $confirm_password = $form_error = "";
