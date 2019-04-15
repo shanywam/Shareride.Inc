@@ -1,100 +1,30 @@
 <?php
-session_start();
+        include_once '../backend/auth.php';  $user = new User(); // Checking for user logged in or not
 
-require_once('../backend/auth.php');
+        if (isset($_REQUEST['submit']))
+        {
+            extract($_REQUEST);
+                $firstname ='';
+                $lastname ='';
+                $email='';
+                $password='';
+                $corfirm_password ='';
 
-$reg_user = new Connect();
+                $register = $user->reg_user($firstname, $lastname, $email, $password, $corfirm_password);
+            if ($register)
+                {
 
-if ($reg_user->is_logged_in()) {
-   if ($_SESSION['user_type'] == 1) {
-       $reg_user->redirect('../driver/drive.php');
-   } else {
-        $reg_user->redirect('../client/ride.php');
-  }
-}
+                    // Registration Success
+                    echo 'Registration successful <a href="login.php">Click here</a> to login';
+                } else
+                    {
 
+                        // Registration Failed
+                        echo 'Registration failed. Email or Username already exits please try again';
+                    }
 
-$firstname = $lastname = $email = $phone = $password = $confirm_password = $form_error = "";
-$firstname_err = $lastname_err = $email_err = $phone_err = $password_err = $confirm_password_err = $form_err = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Validate Form
-    if (
-        empty(trim($_POST["firstname"]))
-        && empty(trim($_POST["lastname"]))
-        && empty(trim($_POST["email"]))
-        && empty(trim($_POST["phone"]))
-        && empty(trim($_POST["password"]))
-        && empty(trim($_POST["confirm_password"]))
-    ) {
-        $form_error = "Please fill the form .";
-    }
-    // Validate firstname
-    if (strlen(trim($_POST["firstname"])) < 3) {
-        $firstname_err = "firstname must have at least 3 characters.";
-    } else {
-        $firstname = trim($_POST["firstname"]);
-    }
-    // Validate lastname
-    if (strlen(trim($_POST["lastname"])) < 3) {
-        $lastname_err = "lastname must have at least 3 characters.";
-    } else {
-        $lastname = trim($_POST["lastname"]);
-    }
-    // Validate Password
-    if (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Password must have at least 6 characters.";
-    } else {
-        $password = trim($_POST["password"]);
-    }
-
-    if (empty(trim($_POST["confirm_password"]))) {
-        $confirm_password_err = "Please confirm password.";
-    } else {
-        $confirm_password = trim($_POST["confirm_password"]);
-        if (empty($password_err) && ($password != $confirm_password)) {
-            $confirm_password_err = "Password did not match.";
         }
-    }
-
-    // If no errors submit form
-    if (
-        empty($firstname_err) &&
-        empty($lastname_err) &&
-        empty($email_err) &&
-        empty($phone_err) &&
-        empty($password_err) &&
-        empty($confirm_password_err)
-    ) {
-
-        $email = $_POST["email"];
-
-        $stmt = $reg_user->runQuery("SELECT * FROM users WHERE email = '$email'");
-
-        mysqli_stmt_execute($stmt);
-
-        mysqli_stmt_store_result($stmt);
-
-        if (mysqli_stmt_num_rows($stmt) == 1) {
-            $email_err = "This user email provided already exists.";
-        } else {
-            $firstname = trim($_POST["firstname"]);
-            $lastname = trim($_POST["lastname"]);
-            $email = trim($_POST["email"]);
-            $phone = trim($_POST["phone"]);
-            $pass = password_hash(trim($_POST["password"]), PASSWORD_DEFAULT);
-
-            if ($reg_user->register($firstname, $lastname, $email, $phone, $pass, 2)){
-                $this->redirect("../auth/login.php");
-            }else{
-                $form_err = "Please check your details are correct";
-            }
-        }
-    }
-}
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -139,64 +69,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <div class="wrapper">
         <h2 class="text-center">welcome to Shareride.Inc</h2>
-
         <p class="text-center">Please fill this form to create an account.</p>
-
         <p class="text-center help-block" style="color: red;"></p>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
-        <?php
-        //echo $form_error
-        ?>
-
-        <form action="register.php" method="post">
-
-            <div class="<?php echo (!empty($firstname_err)) ? 'has-error' : ''; ?>">
-                <!--                <label>First Name: </label>-->
-                <input type="text" name="first_name" class="input" placeholder="First Name"
-                       value="<?php echo $firstname; ?>">
-                <span class="help-block text-center"><?php echo $firstname_err; ?></span>
-            </div>
-
-            <div class="<?php echo (!empty($lastname_err)) ? 'has-error' : ''; ?>">
-                <!--                <label>Last Name: </label>-->
-                <input type="text" name="last_name" class="input" placeholder="Last Name"
-                       value="<?php echo $lastname; ?>">
-                <span class="help-block text-center"><?php echo $lastname_err; ?></span>
-            </div>
-
-            <div class="<?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                <!--                <label>Email: </label>-->
-                <input type="email" name="email" class="input" placeholder="example@gmail.com"
-                       value="<?php echo $email; ?>">
-                <span class="help-block text-center"><?php echo $email_err; ?></span>
-            </div>
-
-            <div class="<?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
-                <!--                <label>Phone: </label>-->
-                <input type="text" name="phone" class="input" placeholder="0722000000"
-                       value="<?php echo $phone; ?>">
-                <span class="help-block text-center"><?php echo $phone_err; ?></span>
-            </div>
-
-            <div class="<?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <!--                <label>Password: </label>-->
-                <input type="password" name="password" class="input" placeholder="*******"
-                       value="<?php echo $password; ?>">
-                <span class="help-block text-center"><?php echo $password_err; ?></span>
-            </div>
-
-            <div class="<?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                <!--                <label>Confirm Password: </label>-->
-                <input type="password" name="confirm_password" class="input" placeholder="*******"
-                       value="<?php echo $confirm_password; ?>">
-                <span class="help-block text-center"><?php echo $confirm_password_err; ?></span>
-            </div>
-
-            <div class="">
-                <input type="submit" class="btn btn-primary input" value="Submit">
-            </div>
-            <p class="text-center">Already have an account? <a href="login.php">LOGIN HERE</a>.</p>
-        </form>
+        <style>
+            #container{width:400px; margin: 0 auto;}
+        </style>
+        <script type="text/javascript" language="javascript">
+            function submitreg()
+            {
+                var form = document.reg;
+                if(form.fname.value == ""){
+                    alert( "Enter name." );
+                    return false;
+                }
+                else if(form.lname.value == ""){
+                        alert( "Enter username." );
+                        return false;
+                    }
+                else if(form.email.value == ""){
+                        alert( "Enter email." );
+                        return false;
+                    }
+                else if(form.pass.value == ""){
+                    alert( "Enter password." );
+                    return false;
+                }
+                else if(form.confirm_pass.value == ""){
+                    alert( "Enter password." );
+                    return false;
+                }
+            }
+        </script>
+        <div id="container">
+            <h3 class="text-center">Register Here</h3>
+            <form action="" method="post" name="reg">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>firstname:</th>
+                        <td><input type="text" name="fname" required="" /></td>
+                    </tr>
+                    <tr>
+                        <th>lastname:</th>
+                        <td><input type="text" name="lname" required="" /></td>
+                    </tr>
+                    <tr>
+                        <th>email:</th>
+                        <td><input type="text" name="email" required="" /></td>
+                    </tr>
+                    <tr>
+                        <th>password:</th>
+                        <td><input type="password" name="pass" required="" /></td>
+                    </tr>
+                    <tr>
+                        <th>confirm_password:</th>
+                        <td><input type="password" name="confirm_pass" required="" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input onclick="return(submitreg());" type="submit" name="submit" value="Register" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><a href="login.php">Already registered! Click Here!</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form></div>
     </div>
 </div>
 </body>

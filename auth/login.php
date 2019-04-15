@@ -1,18 +1,28 @@
 <?php
 session_start();
 
-require_once '../backend/auth.php';
+	    include_once '../backend/auth.php';
 
-$logged_user = new Connect();
+	    $user = new User();
+	    if (isset($_REQUEST['submit']))
+	    {
+	        extract($_REQUEST);
 
-if ($logged_user->is_logged_in()) {
-   if ($_SESSION['user_type'] == 1) {
-       $logged_user->redirect('../driver/drive.php');
-   }
-   } else {
-        $logged_user->redirect('../client/ride.php');
-   }
+            $password ='';
+            $email ='';
 
+            $login = $user->check_login($email, $password);
+	        if ($login) {
+	            // Registration Success
+	           header("location:home.php");
+
+	        } else {
+
+	            // Registration Failed
+
+	            echo 'Wrong details';
+	        }
+	    }
 
 $email = $password = "";
 $user_type = null;
@@ -92,24 +102,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <div class="wrapper">
         <h2 class="text-center">Welcome to Shareride.Inc</h2>
-        <p class="text-center" style="color: red;"><?php echo $form_err ?></p>
-        <form action="login.php" method="post">
-            <div class=" <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                <!--                <label>Email</label>-->
-                <input type="email" name="email" class="input" placeholder="Email Address"
-                       value="<?php echo $email; ?>">
-                <span class="help-block" style="text-align: center;"><?php echo $email_err; ?></span>
-            </div>
-            <div class=" <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <!--                <label>Password</label>-->
-                <input type="password" name="password" placeholder="password" class="input">
-                <span class="help-block" style="text-align: center;"><?php echo $password_err; ?></span>
-            </div>
-            <div class="">
-                <input type="submit" class="btn btn-primary input" value="Login">
-            </div>
-            <p class="text-center">Don't have an account? <a href="register.php">REGISTER</a>.</p>
-        </form>
+        <p class="text-center" style="color: red;"></p>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <style><!--
+            #container{width:400px; margin: 0 auto;}
+            --></style>
+        <script type="text/javascript">
+            function submitlogin()
+            {
+                var form = document.login;
+                if(form.email.value == "")
+                {
+                    alert( "Enter email or username." );
+                    return false;
+                }
+                else if(form.password.value == "")
+                {
+                        alert( "Enter password." );
+                        return false;
+                }
+            }
+        </script>
+
+        <span style="font-family: 'Courier 10 Pitch', Courier, monospace; font-size: 13px; font-style: normal; line-height: 1.5;"><div id="container"></span>
+        <h3>Login Here</h3>
+        <form action="" method="post" name="login">
+            <table>
+                <tbody>
+                <tr>
+                    <th class="text-center">Email:</th>
+                    <td><input type="text" name="email" required="" /></td>
+                </tr>
+                <tr>
+                    <th class="text-center">Password:</th>
+                    <td><input type="password" name="password" required="" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input onclick="return(submitlogin());" type="submit" name="submit" value="Login" /></td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><a href="register.php">Register new user</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </form></div>
     </div>
 </div>
 </body>

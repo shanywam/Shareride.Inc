@@ -20,7 +20,7 @@
     <div id="main-header-nav" class="collapse navbar-collapse">
         <ul id="menu-main-nav" class="nav navbar-nav main-nav underlined weight-light">
             <li class="nav-item active">
-                <a class="nav-link" href="index.php"><i style ="color:darkgrey ; font-family: 'Merienda', cursive;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php"><i style ="color:darkgrey ;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class=" nav-item active">
                 <a class="nav-link" href="./auth/register.php"><i style ="color:darkgrey;font-family: 'Merienda', cursive;"class="fa fa-"></i> Register <span class="sr-only">(current)</span> </a>

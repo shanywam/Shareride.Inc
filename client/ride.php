@@ -3,7 +3,7 @@ session_start();
 
 require_once '../backend/auth.php';
 
-$logged_user = new Connect();
+$logged_user = new Auth();
 
 if (!$logged_user->is_logged_in()) {
     $logged_user->redirect('../index.php');
@@ -13,11 +13,10 @@ if (!$logged_user->is_logged_in()) {
     }
 }
 
-$active_page = 'events';
+$active_page = 'ride';
 $form_active = $edit_profile = $edit_password = $delete_account = $add_amount_form = false;
-$event_name = $event_location = $event_date = $event_people = $event_costs = $delete_error = $event_id = $eventId = "";
-$event_form_error = $form_submitted = $delete_event_error = $event_date_edit = $success_message = $event_form_succ = "";
-$notification_count = null;
+$name = $phone = $origin = $destination = $capacity_of_vehicle = $delete_error  = "";
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -25,56 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $active_page = 'events';
     } elseif (isset($_POST['page']) && $_POST['page'] === 'profile') {
         $active_page = 'profile';
-    } elseif (isset($_POST['page']) && $_POST['page'] === 'notification') {
-        $active_page = 'notification';
     } elseif (isset($_POST["form_active"])) {
         $form_active = true;
     } elseif (isset($_POST['event_form'])) { //save new details
-        if (
-            empty(trim($_POST['event_name'])) &&
-            empty(trim($_POST['event_location'])) &&
-            empty(trim($_POST['event_date'])) &&
-            empty(trim($_POST['event_people'])) &&
-            empty(trim($_POST['event_costs']))
-        ) {
-            $form_active = true;
 
-            $event_form_error = "Please fill every field correctly";
-        } else {
-            $form_active = true;
-
-            $event_name = trim($_POST['event_name']);
-            $event_location = trim($_POST['event_location']);
-            $event_date = trim($_POST['event_date']);
-            $event_people = trim($_POST['event_people']);
-            $event_costs = trim($_POST['event_costs']);
-
-            //check if its edit or new event submitted
-            if (trim($_POST['form_submitted']) == "form_new") {
-
-                if ($logged_user->addRequestEvent($event_name, $event_location, $event_date, $event_people, $event_costs)) {
-                    $logged_user->redirect('client_page.php');
-                    $event_form_succ = "Event request successfully made...await notifications";
-                    $form_active = false;
-                } else {
-                    $form_error = "Something went wrong. Please try again later.";
-                    $form_active = true;
-                }
-            } elseif (trim($_POST['form_submitted']) == "form_edit") {
-                $eventId = $_POST['eventId'];
-
-                if ($logged_user->editRequestEvent($eventId, $event_name, $event_location, $event_date, $event_people, $event_costs)) {
-                    $logged_user->redirect('client_page.php');
-                    $event_form_succ = "Event edit request successfully made...await notifications";
-                    $form_active = false;
-                } else {
-                    $event_form_error = "Something went wrong. Please try again later.";
-                    $form_active = false;
-                }
-            }
-
-
-        }
     } elseif (isset($_POST['event_delete'])) { //soft delete existing details
         if ($logged_user->deleteEvent($_POST['event_id'])) {
             $logged_user->redirect('client_page.php');
@@ -177,38 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $action = $_POST['notification_event'];
         $active_page = 'notification';
 
-        if ($action == 'view_add_amount'){
-            $add_amount_form = true;
 
-            $notification_id = $_POST['notification_id'];
-            $eventDetails = $logged_user->viewEventDetails($_POST['event_id']);
-            $event_id = $eventDetails['id'];
-            $event_name = $eventDetails['name'];
-            $event_cost = $eventDetails['total_cost'];
-            $event_balance = $eventDetails['total_bal'];
-
-        }elseif ($action == 'add_amount') {
-            $p_cost = (int)$_POST['event_cost'];
-            $amount = (int)$_POST['amount'];
-
-            $n_cost = ($p_cost + $amount);
-
-            if ($logged_user->updateEventAmount($n_cost)){
-                $add_amount_form = false;
-                $success_message = "Amount Updated";
-            }else{
-                $add_amount_form = true;
-                $success_message = "Error occurred on update";
-            }
-        }elseif ($action == 'mark_as_read') {
-            if ($logged_user->updateNotification($_POST['notification_id'])){
-                $add_amount_form = false;
-                $success_message = "Notification Read";
-            }else{
-                $add_amount_form = true;
-                $success_message = "Notification not read";
-            }
-        }
     }
 }
 
@@ -245,7 +167,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;font-family: 'Merienda', cursive; "class="fa fa-user"></i> Ride <span class="sr-only">(current)</span></a>
             </li>
             <li class=" nav-item active">
-                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-r"></i> Logout <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="../client/rideform.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-"></i> Request Ride <span class="sr-only">(current)</span> </a>
+            </li>
+            <li class=" nav-item active">
+                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-"></i> Logout <span class="sr-only">(current)</span> </a>
             </li>
         </ul>
     </div>

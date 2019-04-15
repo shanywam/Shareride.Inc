@@ -5,7 +5,7 @@ global  $edit_profile, $edit_password, $delete_account;
 
 require_once "../backend/auth.php";
 
-$admin = new Connect();
+$admin = new Auth();
 
 $details = $admin->ClientInformation($_SESSION['id']);
 

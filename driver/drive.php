@@ -3,7 +3,7 @@ session_start();
 
 require_once '../backend/auth.php';
 
-$logged_user = new Connect();
+$logged_user = new Auth();
 
 if (!$logged_user->is_logged_in()) {
     $logged_user->redirect('../index.php');
