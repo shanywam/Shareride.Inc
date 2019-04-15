@@ -5,9 +5,10 @@ global  $edit_profile, $edit_password, $delete_account;
 
 require_once "../backend/auth.php";
 
-$admin = new Auth();
+$admin = new User();
 
-$details = $admin->ClientInformation($_SESSION['id']);
+$_SESSION ='id';
+$details = $admin-> ClientInformation($_SESSION);
 
 $user_id = $details['id'];
 $firstname = $details['firstname'];

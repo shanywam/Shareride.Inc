@@ -8,15 +8,21 @@ class User
 
         public function __construct()
         {
-        $this->db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE,DB_PORT);
+            $this->db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE,DB_PORT);
 
-        if(mysqli_connect_errno())
-        {
-            echo "Error: Could not connect to database.";
-            exit;
-        }}
+            if(mysqli_connect_errno())
+            {
+                echo "Error: Could not connect to database.";
+                exit;
+            }
+        }
+        public function runQuery($sql)
+            {
+                return mysqli_prepare($this->conn, $sql);
+            }
 
-        /*** for registration process ***/
+
+    /*** for registration process ***/
         public function reg_user($firstname, $lastname, $email, $password, $corfirm_password)
         {
             $password = md5($password);
@@ -39,6 +45,19 @@ class User
                 return false;
                 }
         }
+    public function is_logged_in()
+    {
+        if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function redirect($url)
+    {
+        header("Location: $url");
+    }
 
         /*** for login process ***/
 
@@ -82,5 +101,87 @@ class User
             $_SESSION['login'] = FALSE;
             session_destroy();
         }
+    public function ClientInformation($userId)
+    {
+        try {
+            $stmt = $this->runQuery("SELECT * FROM users WHERE id = $userId");
+
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                return $row;
+            }
+
+        } catch (mysqli_sql_exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+    public function editClientInformation($user_id, $fname, $lname, $mail)
+    {
+        try {
+            $stmt = $this->runQuery("UPDATE users SET first_name = '$fname', last_name = '$lname', email = '$mail'WHERE id='$user_id'");
+
+            if (mysqli_stmt_execute($stmt)) {
+                return true;
+            }
+
+            return false;
+        } catch (mysqli_sql_exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+    public function editUserPassword($user_id, $p_pass, $new_pass)
+    {
+        $stmt = $this->runQuery("SELECT password FROM users WHERE id = '$user_id'");
+
+        if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_store_result($stmt);
+
+            if (mysqli_stmt_num_rows($stmt) == 1) {
+                mysqli_stmt_bind_result($stmt, $hashed_pass);
+
+                if (mysqli_stmt_fetch($stmt)) {
+                    if (password_verify($p_pass, $hashed_pass)) {
+                        $stmt = $this->runQuery("UPDATE users SET password = '$new_pass' WHERE id='$user_id'");
+
+                        if (mysqli_stmt_execute($stmt)) {
+                            return true;
+                        }
+
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    public function deleteAccount($userId)
+    {
+        $deleted_date = date("Y/m/d"); // today's date
+
+        $stmt = $this->runQuery("UPDATE users SET deleted_at = '$deleted_date' WHERE id='$userId'");
+
+        if (mysqli_stmt_execute($stmt)) {
+            return true;
+        }
+
+        return false;
+    }
+    public function countUserEvents($userId)
+    {
+        $stmt = $this->runQuery("SELECT COUNT(*) AS rideCount FROM rides WHERE user_id = $userId");
+
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_bind_result($stmt, $eventCount);
+
+        mysqli_stmt_fetch($stmt);
+
+        return $eventCount;
+    }
+
+
+
+
 }
 ?>

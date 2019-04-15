@@ -1,4 +1,7 @@
 <?php
+require_once "../backend/auth.php";
+
+$admin = new User();
 
 $ride = 0;
 function getUserRides($user_id)

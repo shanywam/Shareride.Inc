@@ -3,7 +3,7 @@ session_start();
 
 require_once '../backend/auth.php';
 
-$logged_user = new Auth();
+$logged_user = new User();
 
 if (!$logged_user->is_logged_in()) {
     $logged_user->redirect('../index.php');
@@ -16,7 +16,7 @@ if (!$logged_user->is_logged_in()) {
 $active_page = 'rides';
 $latest_action = true;
 
-$add_funds_request = $edit_task = $delete_panel = $event_sub_task = false;
+
 $ride_action_error = $ride_action_success = $delete_message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail = $_POST['email'];
         $phone = $_POST['phone'];
 
-        if ($logged_user->editClientInformation($user_id, $fname, $lname, $mail, $phone)) {
+        if ($logged_user->editClientInformation($user_id, $fname, $lname, $mail)) {
             $edit_profile = false;
             $active_page = "profile";
             $success_message = "Profile Details updates successfully";

@@ -3,7 +3,7 @@ session_start();
 
 require_once('../backend/auth.php');
 
-$reg_user = new Auth();
+$reg_user = new User();
 
 if ($reg_user->is_logged_in()) {
     if ($_SESSION['user_type'] == 1) {
