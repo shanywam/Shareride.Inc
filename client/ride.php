@@ -3,15 +3,15 @@ session_start();
 
 require_once '../backend/auth.php';
 
-$logged_user = new Auth();
+$logged_user = new User();
 
-if (!$logged_user->is_logged_in()) {
-    $logged_user->redirect('../index.php');
-} else {
-    if ($_SESSION['user_type'] == 1) {
-        $logged_user->redirect('../driver/drive.php');
-    }
-}
+//if (!$logged_user->is_logged_in()) {
+    //$logged_user->redirect('../index.php');
+//} else {
+  //  if ($_SESSION['user_type'] == 1) {
+   //     $logged_user->redirect('../driver/drive.php');
+   // }
+//}
 
 $active_page = 'ride';
 $form_active = $edit_profile = $edit_password = $delete_account = $add_amount_form = false;
@@ -29,11 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (isset($_POST['event_form'])) { //save new details
 
     } elseif (isset($_POST['event_delete'])) { //soft delete existing details
-        if ($logged_user->deleteEvent($_POST['event_id'])) {
-            $logged_user->redirect('client_page.php');
-        } else {
-            $delete_event_error = "Something went wrong. Please try again later.";
-        }
+
 
     } elseif (isset($_POST['event_edit'])) { // edit existing details
         $form_active = true;
@@ -73,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail = $_POST['email'];
         $phone = $_POST['phone'];
 
-        if ($logged_user->editClientInformation($user_id, $fname, $lname, $mail, $phone)) {
+        if ($logged_user->ClientInformation($user_id, $fname, $lname, $mail, $phone)) {
             $edit_profile = false;
             $active_page = "profile";
             $success_message = "Profile Details updates successfully";
@@ -158,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="main-header-nav" class="collapse navbar-collapse">
         <ul id="menu-main-nav" class="nav navbar-nav main-nav underlined weight-light">
             <li class="nav-item active">
-                <a class="nav-link" href="../index.php"><i style ="color:darkgrey ;font-family: 'Merienda', cursive;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;font-family: 'Merienda', cursive;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="../driver/drive.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-car"></i> Drive <span class="sr-only">(current)</span></a>

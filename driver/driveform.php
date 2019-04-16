@@ -15,7 +15,7 @@ $reg_user = new User();
 
 $form_error  = $delete_error = $date = $success_message = '';
 $show_form  = false;
-$id = $name  = $phone = $origin = $destination = $capacity_of_vehicle = $user_id = "";
+$id = $user_id = $identification_no =  "";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -23,85 +23,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate Form
     if (isset($_POST['create_new'])) { // creating new
 
-    if (
-        empty(trim($_POST["name"]))
-        && empty(trim($_POST["phone"]))
-        && empty(trim($_POST["origin"]))
-        && empty(trim($_POST["destination"]))
-        && empty(trim($_POST["capacity_of_vehicle"]))
+        if (
+            empty(trim($_POST["user_id"]))
+            && empty(trim($_POST["identification_no"]))
 
-    ) {
-        $form_error = " Fill form.";
-    }
-    // Validate name
-    if (strlen(trim($_POST["name"])) < 3) {
-        $name_err = "name must have at least 6 characters.";
-    }
-    // Validate Password
-    if (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Password must have at least 6 characters.";
-    } else {
-        $password = trim($_POST["password"]);
-    }
-    }else {
-                $name = $_POST["name"];
-                $phone = $_POST["phone"];
-                $origin = $_POST["origin"];
-                $destination = $_POST["destination"];
-                $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
 
-                $sql = "INSERT into rides(name, phone, origin, destination, capacity_of_vehicle) VALUES ('$name', '$phone', '$origin', '$destination', '$capacity_of_vehicle')";
-
-                // echo (mysqli_query($conn,$sql));
-
-                $enter = mysqli_query($conn, $sql);
-           }
-
-    } elseif (isset($_POST['create_edit'])) {
-
-        $ride_id = $_POST["ride_id"];
-
-        // echo $books_id;
-
-        $name = $_POST["name"];
-            $phone = $_POST["phone"];
-            $origin = $_POST["origin"];
-            $destination = $_POST["destination"];
-            $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
-
-        $sql = "UPDATE rides SET name = '$name', phone = '$phone', origin = '$origin', destination = '$destination', capacity_of_vehicle = '$capacity_of_vehicle'  WHERE id='$ride_id'";
-
-        $edit = mysqli_query($conn, $sql);
-
-    } elseif (isset($_POST["delete_action"])) {
-
-        $ride_id = $_POST["ride_id"];
-
-        $sql = "DELETE from rides WHERE id='$ride_id'";
-
-        if (mysqli_query($conn, $sql)) {
-            header("location: rides.php");
-        } else {
-            $delete_error = "Deletion process was unsuccessful";
+        ) {
+            $form_error = " Fill form.";
         }
 
-    } elseif (isset($_POST['edit_action'])) {
+    }else {
+        $name = $_POST["user_id"];
+        $identification_no = $_POST["identification_no"];
 
-    $ride_id = $_POST["ride_id"];
 
-    $sql = "SELECT * FROM rides WHERE id = '$ride_id'";
+        $sql = "INSERT INTO driver(user_id, identification_no) VALUES ('$user_id', '$identification_no')";
+
+        // echo (mysqli_query($conn,$sql));
+
+        $enter = mysqli_query($conn, $sql);
+    }
+
+} elseif (isset($_POST['create_edit'])) {
+
+    $driver_id = $_POST["driver_id"];
+
+    // echo $ id;
+
+    $name = $_POST["user_id"];
+    $identification_no = $_POST["identification_no"];
+
+    $sql = "UPDATE driver SET user-id = '$user_id', identification_no = '$identification_no'  WHERE id='$driver_id'";
+
+    $edit = mysqli_query($conn, $sql);
+
+} elseif (isset($_POST["delete_action"])) {
+
+    $driver_id = $_POST["driver_id"];
+
+    $sql = "DELETE from driver WHERE id='$driver_id'";
+
+    if (mysqli_query($conn, $sql)) {
+        header("location: driverform.php");
+    } else {
+        $delete_error = "Deletion process was unsuccessful";
+    }
+
+} elseif (isset($_POST['edit_action'])) {
+
+    $driver_id = $_POST["driver_id"];
+
+    $sql = "SELECT * FROM driver WHERE id = '$driver_id'";
 
     $data = mysqli_query($conn, $sql);
 
     $details = mysqli_fetch_row($data);
 
-    $name = $details[1];
-    $phone = $details[2];
-    $origin = $details[3];
-    $destination = $details[4];
-    $capacity_of_vehicle = $details[5];
-}
-$sql="select * from rides";
+    $user_id = $details[1];
+    $identification_no = $details[2];
+
+$sql="select * from driver";
 
 $result=mysqli_query($conn,$sql);
 ?>
@@ -155,33 +136,21 @@ $result=mysqli_query($conn,$sql);
 
         <form style="width: 400px;background: #fcfcfc;margin: 70px auto;">
             <div class="form-group" >
-                <label for="formGroupExampleInput">Name</label>
+                <label for="formGroupExampleInput">user_id</label>
                 <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
             </div>
             <div class="form-group">
-                <label for="formGroupExampleInput2">Phone</label>
+                <label for="formGroupExampleInput2">identification_no</label>
                 <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Phone no">
             </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Origin</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Pick up point">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Destination</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Where to">
-            </div>
 
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Capacity of Vehicle</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Capacity of Vehicle">
-            </div>
             <?php if(empty($id)){ ?>
 
                 <input type="hidden" value="create_new" name="create_new">
             <?php }else { ?>
                 <input type="hidden" value="create_new" name="create_edit">
 
-                <input type="hidden" value="<?php echo $ride_id; ?>" name="ride_id"/>
+                <input type="hidden" value="<?php echo $driver_id; ?>" name="ride_id"/>
             <?php } ?>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -191,11 +160,8 @@ $result=mysqli_query($conn,$sql);
 <table class="container">
 
     <tr>
-        <th> Name </th>
-        <th> Phone </th>
-        <th> Origin </th>
-        <th> Destination </th>
-        <th> Capacity_of_vehicle </th>
+        <th> User_id </th>
+        <th> Identification_id </th>
         <th> Action </th>
 
     </tr>
@@ -205,27 +171,30 @@ $result=mysqli_query($conn,$sql);
     <tr>
         <td class="text-center"><?php echo $array[1]; ?></td>
         <td class="text-center"><?php echo $array[2]; ?></td>
-        <td class="text-center"><?php echo $array[3]; ?></td>
-        <td class="text-center"><?php echo $array[4]; ?></td>
-        <td class="text-center"><?php echo $array[5]; ?></td>
 
 
-    <td>
-    <form action="ride.php" method="post">
 
-        <!--            </form>-->
-        <!--            </br>-->
-        <!---->
-        <!--            <form action="books.php" method="post">-->
+        <td>
+            <form action="./driveform.php" method="post">
+                <input type="hidden" name="driver_id" value="<?php echo $array[0]; ?>">
 
-        <input type="hidden" name="ride_id" value="<?php echo $array[0]; ?>">
+                <input type="hidden" value="delete_action" name="delete_action">
 
-        <input type="hidden" name="edit_action" value="edit_action">
+                <button type="submit" class="btn btn-primary">Delete</button>
+                <!--            </form>-->
+                <!--            </br>-->
+                <!---->
+                <!--            <form action="books.php" method="post">-->
 
-        <button type="submit" class="btn btn-primary">Edit</button>
+                <input type="hidden" name="driver_id" value="<?php echo $array[0]; ?>">
 
-    </form>
-    </td>
+                <input type="hidden" name="edit_action" value="edit_action">
+
+                <button type="submit" class="btn btn-primary">Edit</button>
+
+            </form>
+        </td>
+        <?php } ?>
     <?php } ?>
 </body>
 </html>

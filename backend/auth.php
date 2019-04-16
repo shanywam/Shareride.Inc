@@ -25,10 +25,12 @@ class User
     /*** for registration process ***/
         public function reg_user($firstname, $lastname, $email, $password, $corfirm_password)
         {
+            return var_dump($email);
+
             $password = md5($password);
 
             $sql = "SELECT * FROM users WHERE  email='$email'";
-        //checking if the  email is available in db
+        //checking if the  email is available inz db
 
             $check = $this->db->query($sql);
             $count_row = $check->num_rows;
@@ -36,6 +38,7 @@ class User
         //if the email is not in db then insert to the table
             if ($count_row == 0)
             {
+
                 $sql1 = "INSERT INTO users SET  pass='$password', email='$email'";
                 $result = mysqli_query($this->db, $sql1) or die(mysqli_connect_errno() . "Data cannot inserted");
                 return $result;
@@ -173,15 +176,58 @@ class User
 
         mysqli_stmt_execute($stmt);
 
-        mysqli_stmt_bind_result($stmt, $eventCount);
+        mysqli_stmt_bind_result($stmt, $rideCount);
 
         mysqli_stmt_fetch($stmt);
 
-        return $eventCount;
+        return $rideCount;
     }
+    public function showEditRequestDetails($rideid)
+    {
+        try {
+            $stmt = $this->runQuery("SELECT id, name, phone, origin, destination, capacity_vehicle FROM rides WHERE id = $rideid");
 
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
 
+            while ($row = mysqli_fetch_assoc($result)) {
+                return $row;
+            }
 
+        } catch (mysqli_sql_exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+    public function getUsersByType($userType)
+    {
+        $stmt = $this->runQuery("SELECT id, firstname, lastname, email FROM users WHERE usertype = $userType AND deleted_at IS NULL OR deleted_at = ''");
 
+        if (mysqli_stmt_execute($stmt)) {
+
+            mysqli_stmt_bind_result($stmt, $id, $firstname, $lastname, $email);
+
+            while (mysqli_stmt_fetch($stmt)) {
+                $users[] = ['id' => $id, 'firstname' => $firstname, 'lastname' => $lastname, 'email' => $email];
+            }
+
+            if (empty($users)) {
+                return false;
+            } else {
+                return $users;
+            }
+        }
+    }
+    public function countUserRides($userId)
+    {
+        $stmt = $this->runQuery("SELECT COUNT(*) AS rideCount FROM rides WHERE user_id = $userId");
+
+        mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_bind_result($stmt, $rideCount);
+
+        mysqli_stmt_fetch($stmt);
+
+        return $rideCount;
+    }
 }
 ?>

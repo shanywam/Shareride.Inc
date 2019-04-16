@@ -11,7 +11,7 @@ define('DB_DATABASE', 'shareride');
 define('DB_PORT', '3306');
 
 
-    $con = mysqli_connect("127.0.0.1", "homestead", "secret", "shareride", "3306");
+    $conn = mysqli_connect("127.0.0.1", "homestead", "secret", "shareride", "3306");
 
     //check connection
     if (mysqli_connect_errno())

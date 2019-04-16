@@ -258,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Driving for Shareride.Inc is different because we are locally-based in Nairobi. We relate to our drivers in a way other companies don&#8217;t .</p>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="../auth/registerdriver.php"><i style ="color:darkgrey ;"class="fa fa-"></i> To become a driver <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="../auth/driverform.php"><i style ="color:darkgrey ;"class="fa fa-"></i> To become a driver <span class="sr-only">(current)</span></a>
                 </li>
 
         </div>
