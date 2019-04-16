@@ -11,6 +11,7 @@
                 $corfirm_password ='';
 
                 $register = $user->reg_user($firstname, $lastname, $email, $password, $corfirm_password);
+                //var_dump($register);
             if ($register)
                 {
 

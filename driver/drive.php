@@ -5,13 +5,13 @@ require_once '../backend/auth.php';
 
 $logged_user = new User();
 
-if (!$logged_user->is_logged_in()) {
+/*if (!$logged_user->is_logged_in()) {
     $logged_user->redirect('../index.php');
 } else {
     if ($_SESSION['user_type'] == 2) {
         $logged_user->redirect('../client/ride.php');
     }
-}
+}*/
 
 $active_page = 'rides';
 $latest_action = true;
@@ -180,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="ra_header_container_5ca64c7c3a2e8" class="modules-container ra_header_container_5ca64c7c3a2e8  vc_custom_1528890373974"></div>
     <script type="text/javascript">(function($) {$("head").append("<style>.rella-row-shadowbox-5ca64c7c34b20{-webkit-box-shadow:;-moz-box-shadow:;box-shadow:;}</style>");})(jQuery);</script>
 </nav>
-<div class="topnav">
+<!--<div class="topnav">
     <div class="container">
         <a href="../index.php">Home</a>
 
@@ -192,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<a href="../auth/register.php">Register</a>'
         ?>
 
-        <?php if ((isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === true) && $_SESSION['user_type'] == 1)
+        <?php// if ((isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === true) && $_SESSION['user_type'] == 1)
             echo '<a href="../driver/drive.php">Admin Dash</a>'
         ?>
 
@@ -204,7 +204,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<a href="../auth/logout.php">Logout</a>'
         ?>
     </div>
-</div>
+</div>-->
 <div class="container">
     <div class="dash-body">
         <div class="side-menu">
