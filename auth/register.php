@@ -1,16 +1,19 @@
 <?php
-        include_once '../backend/auth.php';  $user = new User(); // Checking for user logged in or not
+        include_once '../backend/auth.php';
+        $user = new User(); // Checking for user logged in or not
 
+
+        //var_dump(isset($_REQUEST['submit']));
         if (isset($_REQUEST['submit']))
         {
             extract($_REQUEST);
-                $firstname ='';
+                /*$firstname ='';
                 $lastname ='';
                 $email='';
                 $password='';
-                $corfirm_password ='';
+                $corfirm_password ='';*/
 
-                $register = $user->reg_user($firstname, $lastname, $email, $password, $corfirm_password);
+                $register = $user->reg_user($firstname, $lastname, $email, $password, $confirm_password);
                 //var_dump($register);
             if ($register)
                 {
@@ -110,11 +113,11 @@
                     <tbody>
                     <tr>
                         <th>firstname:</th>
-                        <td><input type="text" name="fname" required="" /></td>
+                        <td><input type="text" name="firstname" required="" /></td>
                     </tr>
                     <tr>
                         <th>lastname:</th>
-                        <td><input type="text" name="lname" required="" /></td>
+                        <td><input type="text" name="lastname" required="" /></td>
                     </tr>
                     <tr>
                         <th>email:</th>
@@ -122,11 +125,11 @@
                     </tr>
                     <tr>
                         <th>password:</th>
-                        <td><input type="password" name="pass" required="" /></td>
+                        <td><input type="password" name="password" required="" /></td>
                     </tr>
                     <tr>
                         <th>confirm_password:</th>
-                        <td><input type="password" name="confirm_pass" required="" /></td>
+                        <td><input type="password" name="confirm_password" required="" /></td>
                     </tr>
                     <tr>
                         <td></td>

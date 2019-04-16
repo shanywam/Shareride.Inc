@@ -25,11 +25,11 @@ class User
     /*** for registration process ***/
         public function reg_user($firstname, $lastname, $email, $password, $confirm_password)
         {
-            var_dump($firstname);
+           /* var_dump($firstname);
             var_dump($lastname);
             var_dump($email);
             var_dump($password);
-            var_dump($confirm_password);
+            var_dump($confirm_password);*/
 
             $password = md5($password);
 
@@ -39,14 +39,17 @@ class User
             $check = $this->db->query($sql);
             $count_row = $check->num_rows;
 
-             var_dump($check);
-             var_dump($count_row);
+             //var_dump($check);
+            // var_dump($count_row);
 
         //if the email is not in db then insert to the table
             if ($count_row == 0)
             {
+                //var_dump("$firstname");
 
-                $sql1 = "INSERT INTO users SET  password='$password', email='$email'";
+                $sql1 = "INSERT INTO users (firstname,lastname,email,password,confirm_password) 
+                            VALUES ('\"$firstname\"','\"$lastname\"','\"$email\"','\"$password\"','\"$confirm_password\"')";
+                //var_dump($this->db);
                 $result = mysqli_query($this->db, $sql1) or die(mysqli_connect_errno() . " data is inserted");
                 return $result;
             }
