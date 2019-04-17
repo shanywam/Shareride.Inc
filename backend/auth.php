@@ -32,6 +32,7 @@ class User
             var_dump($confirm_password);*/
 
             $password = md5($password);
+            $confirm_password = md5 ($confirm_password);
 
             $sql = "SELECT * FROM users WHERE  email='$email'";
         //checking if the  email is available inz db
@@ -78,26 +79,36 @@ class User
         {
         $password = md5($password);
 
-        $sql2="SELECT user_id from users WHERE uemail='$email'  and upass='$password'";
+
+        $sql2="SELECT user_id from users WHERE email='$email'  and password='$password'";
 
         //checking if the username is available in the table
 
         $result = mysqli_query($this->db,$sql2);
 
+        //var_dump($result);
         $user_data = mysqli_fetch_array($result);
 
-        $count_row = $result->num_rows;
+            //var_dump($count_row);
+            var_dump($user_data);
 
-        if ($count_row == 1)
+
+            if (!empty($user_data->num_rows)) {
+                $count_row = $user_data->num_rows;
+            }
+
+            if ($count_row == 1)
             {
             // this login var will use for the session thing
 
             $_SESSION['login'] = true;
-            $_SESSION['uid'] = $user_data['uid'];
-            return true;
-            }
 
-        else {
+
+                $user_data ='uid';
+
+                $_SESSION['uid'] = $user_data;
+            return true;
+            } else {
             return false;
              }
         }

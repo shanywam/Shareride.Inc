@@ -139,57 +139,12 @@ $result=mysqli_query($conn,$sql);
     <div id="ra_header_container_5ca64c7c3a2e8" class="modules-container ra_header_container_5ca64c7c3a2e8  vc_custom_1528890373974"></div>
     <script type="text/javascript">(function($) {$("head").append("<style>.rella-row-shadowbox-5ca64c7c34b20{-webkit-box-shadow:;-moz-box-shadow:;box-shadow:;}</style>");})(jQuery);</script>
 </nav>
-        <p><?php echo $form_error ?></p>
-        <p><?php echo $delete_error?></p>
-        <p><?php echo $success_message; ?></p>
+<p><?php echo $form_error ?></p>
+<p><?php echo $delete_error?></p>
+<p><?php echo $success_message; ?></p>
 
-<div class="container">
-    <div class="wrapper">
-        <h3 class="text-center">Welcome to Shareride.Inc</h3>
 
-        <p class="text-center">Fill form .</p>
-
-        <p class="text-center help-block" style="color: red;"></p>
-
-        <?php
-        //echo $form_error
-        ?>
-
-        <form style="width: 400px;background: #fcfcfc;margin: 70px auto;">
-            <div class="form-group" >
-                <label for="formGroupExampleInput">Name</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Phone</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Phone no">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Origin</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Pick up point">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Destination</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Where to">
-            </div>
-
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Capacity of Vehicle</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Capacity of Vehicle">
-            </div>
-            <?php if(empty($id)){ ?>
-
-                <input type="hidden" value="create_new" name="create_new">
-            <?php }else { ?>
-                <input type="hidden" value="create_new" name="create_edit">
-
-                <input type="hidden" value="<?php echo $ride_id; ?>" name="ride_id"/>
-            <?php } ?>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</div>
-
+           
 <table class="container">
 
     <tr>

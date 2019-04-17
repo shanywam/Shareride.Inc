@@ -8,8 +8,8 @@ session_start();
 	    {
 	        extract($_REQUEST);
 
-            $password ='';
-            $email ='';
+           // $password ='';
+            //$email ='';
 
             $login = $user->check_login($email, $password);
 	        if ($login) {
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Validate credentials on DB;
-    if (empty($email_err) && empty($password_err)) {
+   /*if (empty($email_err) && empty($password_err)) {
         if ($logged_user->login($email, $password)) {
 
             if ($_SESSION['user_type'] == 1) {
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }else{
             $form_err = "Please check your details are correct";
         }
-    }
+    }*/
 }
 ?>
 <!DOCTYPE html>
