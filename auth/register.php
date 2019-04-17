@@ -13,7 +13,7 @@
                 $password='';
                 $corfirm_password ='';*/
 
-                $register = $user->reg_user($firstname, $lastname, $email, $password, $confirm_password);
+                $register = $user->reg_user($firstname, $lastname, $email, $password, $confirm_password );
                 //var_dump($register);
             if ($register)
                 {

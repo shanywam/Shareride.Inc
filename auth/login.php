@@ -12,24 +12,23 @@ session_start();
             //$email ='';
 
             $login = $user->check_login($email, $password);
-	        if ($login) {
-	            // Registration Success
-	           header("location:home.php");
+	        if ($login ['user_type_id'] == 1) {
+	             //Registration Success
+	           header("../location:drive.php");
+
+	        } elseif ($login ['user_type_id'] == 2) {
+	            header("../location:ride.php");
 
 	        } else {
+            $form_err = "Please check your details are correct";
 
-	            // Registration Failed
-
-	            echo 'Wrong details';
-	        }
-	    }
-
+	    }}
 $email = $password = "";
 $user_type = null;
 $email_err = $password_err = $form_err = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+{
     // Check if email and password are empty
     if (empty(trim($_POST["email"]))) {
         $email_err = "Please provide an email to continue.";
@@ -44,15 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Validate credentials on DB;
-   /*if (empty($email_err) && empty($password_err)) {
-        if ($logged_user->login($email, $password)) {
+   /*if (empty($email_err) && empty($password_err))
+   {
+        if ($user->check_login($email, $password)) {
 
-            if ($_SESSION['user_type'] == 1) {
-                // admin/ event planner
-                $logged_user->redirect('../driver/drive.php');
-            } elseif ($_SESSION['user_type'] == 2) {
-                // customer
-                $logged_user->redirect('../client/ride.php');
+            if ($_SESSION['user_type_id'] == 1) {
+
+                $user->redirect('../driver/drive.php');
+            } elseif ($_SESSION['user_type_id'] == 2) {
+
+                $user->redirect('../client/ride.php');
             }
         }else{
             $form_err = "Please check your details are correct";
@@ -152,6 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form></div>
     </div>
 </div>
+
 </body>
 </html>
 

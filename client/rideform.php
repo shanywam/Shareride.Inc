@@ -212,7 +212,11 @@ $result=mysqli_query($conn,$sql);
 
     <td>
     <form action="ride.php" method="post">
+        <input type="hidden" name="rides_id" value="<?php echo $array[0]; ?>">
 
+        <input type="hidden" value="delete_action" name="delete_action">
+
+        <button type="submit" class="btn btn-primary">Delete</button>
         <!--            </form>-->
         <!--            </br>-->
         <!---->

@@ -18,8 +18,8 @@ define('DB_PORT', '3306');
         echo "Failed to connect to mysqli:" . mysqli_connect_error();
 
 
-    }else{
-    echo "connected";
+    //}else{
+    //echo "connected";
 
 }
 
