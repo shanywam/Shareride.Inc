@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once('../backend/auth.php');
+require_once('../backend/db_config.php');
 
-$reg_user = new User();
+//$reg_user = new User();
 
 /*if ($reg_user->is_logged_in()) {
     if ($_SESSION['user_type'] == 1) {
@@ -23,51 +23,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate Form
     if (isset($_POST['create_new'])) { // creating new
 
-    if (
-        empty(trim($_POST["name"]))
-        && empty(trim($_POST["phone"]))
-        && empty(trim($_POST["origin"]))
-        && empty(trim($_POST["destination"]))
-        && empty(trim($_POST["capacity_of_vehicle"]))
+        if (
+            empty(trim($_POST["name"]))
+            && empty(trim($_POST["phone"]))
+            && empty(trim($_POST["origin"]))
+            && empty(trim($_POST["destination"]))
+            && empty(trim($_POST["capacity_of_vehicle"]))
 
-    ) {
-        $form_error = " Fill form.";
-    }
-    // Validate name
-    if (strlen(trim($_POST["name"])) < 3) {
-        $name_err = "name must have at least 6 characters.";
-    }
-    // Validate Password
-    if (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Password must have at least 6 characters.";
-    } else {
-        $password = trim($_POST["password"]);
-    }
-    }else {
-                $name = $_POST["name"];
-                $phone = $_POST["phone"];
-                $origin = $_POST["origin"];
-                $destination = $_POST["destination"];
-                $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
+        ) {
+            $form_error = " Fill form.";
+            echo 'please fill form';
 
-                $sql = "INSERT into rides(name, phone, origin, destination, capacity_of_vehicle) VALUES ('$name', '$phone', '$origin', '$destination', '$capacity_of_vehicle')";
-
-                // echo (mysqli_query($conn,$sql));
-
-                $enter = mysqli_query($conn, $sql);
-           }
-
-    } elseif (isset($_POST['create_edit'])) {
-
-        $ride_id = $_POST["ride_id"];
-
-        // echo $books_id;
-
-        $name = $_POST["name"];
+        } else {
+            $name = $_POST["name"];
             $phone = $_POST["phone"];
             $origin = $_POST["origin"];
             $destination = $_POST["destination"];
             $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
+
+            $sql = "INSERT INTO rides (name, phone, origin, departure, capacity_of_vehicle) VALUES ('$name', '$phone', '$origin', '$destination', '$capacity_of_vehicle')";
+
+            // echo (mysqli_query($conn,$sql));
+
+
+
+            $enter = mysqli_query($conn, $sql);
+
+            //var_dump($conn, $sql, $enter);
+        }
+
+    } elseif (isset($_POST['create_edit'])) {
+
+        //var_dump($_POST);
+        $ride_id = $_POST["ride_id"];
+
+
+
+        $name = $_POST["name"];
+        $phone = $_POST["phone"];
+        $origin = $_POST["origin"];
+        $destination = $_POST["destination"];
+        $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
 
         $sql = "UPDATE rides SET name = '$name', phone = '$phone', origin = '$origin', destination = '$destination', capacity_of_vehicle = '$capacity_of_vehicle'  WHERE id='$ride_id'";
 
@@ -80,28 +76,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "DELETE from rides WHERE id='$ride_id'";
 
         if (mysqli_query($conn, $sql)) {
-            header("location: rides.php");
+            header("location: rideform.php");
         } else {
             $delete_error = "Deletion process was unsuccessful";
         }
 
     } elseif (isset($_POST['edit_action'])) {
 
-    $ride_id = $_POST["ride_id"];
+        $ride_id = $_POST["ride_id"];
 
-    $sql = "SELECT * FROM rides WHERE id = '$ride_id'";
+        $sql = "SELECT * FROM rides WHERE id = '$ride_id'";
 
-    $data = mysqli_query($conn, $sql);
+        $data = mysqli_query($conn, $sql);
 
-    $details = mysqli_fetch_row($data);
+        $details = mysqli_fetch_row($data);
 
-    $name = $details[1];
-    $phone = $details[2];
-    $origin = $details[3];
-    $destination = $details[4];
-    $capacity_of_vehicle = $details[5];
+        $name = $details[1];
+        $phone = $details[2];
+        $origin = $details[3];
+        $destination = $details[4];
+        $capacity_of_vehicle = $details[5];
+    }
 }
-$sql="select * from rides";
+$sql="SELECT * FROM rides";
 
 $result=mysqli_query($conn,$sql);
 ?>
@@ -153,33 +150,33 @@ $result=mysqli_query($conn,$sql);
         //echo $form_error
         ?>
 
-        <form style="width: 400px;background: #fcfcfc;margin: 70px auto;">
+        <form style="width: 400px;background: #fcfcfc;margin: 70px auto;" method="POST" action="rideform.php">
             <div class="form-group" >
                 <label for="formGroupExampleInput">Name</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
+                <input type="text" class="form-control" id="formGroupExampleInput" name="name" placeholder="Name" value="<?php echo $name;?>">
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2">Phone</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Phone no">
+                <input type="text" class="form-control" id="formGroupExampleInput2" name="phone" placeholder="Phone no" value="<?php echo $phone;?>">
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2">Origin</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Pick up point">
+                <input type="text" class="form-control" id="formGroupExampleInput2" name="origin" placeholder="Pick up point"value="<?php echo $origin;?>">
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2">Destination</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Where to">
+                <input type="text" class="form-control" id="formGroupExampleInput2" name="destination" placeholder="Where to"value="<?php echo $destination;?>">
             </div>
 
             <div class="form-group">
                 <label for="formGroupExampleInput2">Capacity of Vehicle</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Capacity of Vehicle">
+                <input type="text" class="form-control" id="formGroupExampleInput2" name="capacity_of_vehicle" placeholder="Capacity of Vehicle"value="<?php echo $capacity_of_vehicle;?>">
             </div>
-            <?php if(empty($id)){ ?>
+            <?php if(empty($ride_id)){ ?>
 
                 <input type="hidden" value="create_new" name="create_new">
             <?php }else { ?>
-                <input type="hidden" value="create_new" name="create_edit">
+                <input type="hidden" value="create_edit" name="create_edit">
 
                 <input type="hidden" value="<?php echo $ride_id; ?>" name="ride_id"/>
             <?php } ?>
@@ -211,16 +208,14 @@ $result=mysqli_query($conn,$sql);
 
 
     <td>
-    <form action="ride.php" method="post">
-        <input type="hidden" name="rides_id" value="<?php echo $array[0]; ?>">
+    <form action="rideform.php" method="POST">
+        <input type="hidden" name="ride_id" value="<?php echo $array[0]; ?>">
 
         <input type="hidden" value="delete_action" name="delete_action">
 
         <button type="submit" class="btn btn-primary">Delete</button>
-        <!--            </form>-->
-        <!--            </br>-->
-        <!---->
-        <!--            <form action="books.php" method="post">-->
+                    </form>
+                  <form action="rideform.php" method="POST">
 
         <input type="hidden" name="ride_id" value="<?php echo $array[0]; ?>">
 

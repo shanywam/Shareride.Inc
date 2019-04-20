@@ -1,31 +1,29 @@
 <?php
         include_once '../backend/auth.php';
-        $user = new User(); // Checking for user logged in or not
 
+        $user = new User(); // initialize user
 
         //var_dump(isset($_REQUEST['submit']));
-        if (isset($_REQUEST['submit']))
-        {
+        if (isset($_REQUEST['submit'])) {
             extract($_REQUEST);
-                /*$firstname ='';
-                $lastname ='';
-                $email='';
-                $password='';
-                $corfirm_password ='';*/
 
-                $register = $user->reg_user($firstname, $lastname, $email, $password, $confirm_password );
-                //var_dump($register);
-            if ($register)
-                {
+            $confirm_password = '$password';
 
-                    // Registration Success
-                    echo 'Registration successful <a href="login.php">Click here</a> to login';
-                } else
-                    {
+            $register = $user->reg_user($firstname, $lastname, $email, $password, $confirm_password);
+            //var_dump($register);
+            if ($register) {
 
-                        // Registration Failed
-                        echo 'Registration failed. Email or Username already exits please try again';
-                    }
+                // redirect to login page
+                header("location: login.php");
+            } //else {
+               // echo "Something went wrong. Please try again later.";
+            // else
+               // {
+
+                    // Registration Failed
+                    //echo 'Registration failed. Email or Username already exits please try again';
+               // }
+
 
         }
 ?>

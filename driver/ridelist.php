@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once('../backend/auth.php');
+require_once('../backend/db_config.php');
 
-$reg_user = new User();
+//$reg_user = new User();
 
 /*if ($reg_user->is_logged_in()) {
     if ($_SESSION['user_type'] == 1) {
@@ -20,6 +20,8 @@ $id = $name  = $phone = $origin = $destination = $capacity_of_vehicle = $user_id
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+
+    var_dump($_POST);
     // Validate Form
     if (isset($_POST['create_new'])) { // creating new
 
@@ -32,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         ) {
             $form_error = " Fill form.";
+            echo 'please fill';
         }
         // Validate name
         if (strlen(trim($_POST["name"])) < 3) {
@@ -55,6 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // echo (mysqli_query($conn,$sql));
 
         $enter = mysqli_query($conn, $sql);
+
+        var_dump($enter);
     }
 
 } elseif (isset($_POST['create_edit'])) {
@@ -143,52 +148,7 @@ $result=mysqli_query($conn,$sql);
         <p><?php echo $delete_error?></p>
         <p><?php echo $success_message; ?></p>
 
-<div class="container">
-    <div class="wrapper">
-        <h3 class="text-center">Welcome to Shareride.Inc</h3>
 
-        <p class="text-center">Fill form .</p>
-
-        <p class="text-center help-block" style="color: red;"></p>
-
-        <?php
-        //echo $form_error
-        ?>
-
-        <form style="width: 400px;background: #fcfcfc;margin: 70px auto;">
-            <div class="form-group" >
-                <label for="formGroupExampleInput">Name</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Phone</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Phone no">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Origin</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Pick up point">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Destination</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Where to">
-            </div>
-
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Capacity of Vehicle</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Capacity of Vehicle">
-            </div>
-            <?php if(empty($id)){ ?>
-
-                <input type="hidden" value="create_new" name="create_new">
-            <?php }else { ?>
-                <input type="hidden" value="create_new" name="create_edit">
-
-                <input type="hidden" value="<?php echo $ride_id; ?>" name="ride_id"/>
-            <?php } ?>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</div>
 
 <table class="container">
 

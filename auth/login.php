@@ -23,9 +23,21 @@ session_start();
             $form_err = "Please check your details are correct";
 
 	    }}
+
+                    //Redirect user according to user type
+$user_type_id ='user_type_id';
+if ($user_type_id == 1) {
+                                //driver
+                                header("location: drive.php");
+                            } elseif($user_type_id == 2){
+                                //client
+                                header("location: ride.php");
+                            }
+
 $email = $password = "";
-$user_type = null;
+$user_type_id = 'user_type_id';
 $email_err = $password_err = $form_err = "";
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -42,22 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $password = trim($_POST["password"]);
     }
 
-    // Validate credentials on DB;
-   /*if (empty($email_err) && empty($password_err))
-   {
-        if ($user->check_login($email, $password)) {
 
-            if ($_SESSION['user_type_id'] == 1) {
-
-                $user->redirect('../driver/drive.php');
-            } elseif ($_SESSION['user_type_id'] == 2) {
-
-                $user->redirect('../client/ride.php');
-            }
-        }else{
-            $form_err = "Please check your details are correct";
-        }
-    }*/
 }
 ?>
 <!DOCTYPE html>
@@ -141,6 +138,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 <tr>
                     <td></td>
                     <td><input onclick="return(submitlogin());" type="submit" name="submit" value="Login" /></td>
+                    <?php
+                    $user_type_id ='user_type_id';
+                    if ($user_type_id == 1) {
+                        //driver
+                        header("location: drive.php");
+                    } elseif($user_type_id == 2){
+                        //client
+                        header("location: ride.php");
+                    }
+                    ?>
 
                 </tr>
                 <tr>

@@ -1,9 +1,9 @@
 <?php
-session_start();
+//session_start();
 
-require_once('../backend/auth.php');
 
-$reg_user = new User();
+require_once ('../backend/db_config.php');
+
 
 /*if ($reg_user->is_logged_in()) {
     if ($_SESSION['user_type'] == 1) {
@@ -15,51 +15,87 @@ $reg_user = new User();
 
 $form_error  = $delete_error = $date = $success_message = '';
 $show_form  = false;
-$id = $user_id = $identification_no =  "";
+$id = $user_id =$firstname  = $lastname = $email = $identification_no =  "";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Validate Form
+    //var_dump($_POST);
+
     if (isset($_POST['create_new'])) { // creating new
 
+        //$driver ='reg_driver';
+        //$driverform = $reg_driver->reg_driver($firstname, $lastname, $email, $identification_no );
+
         if (
-            empty(trim($_POST["user_id"]))
+
+            empty(trim($_POST["firstname"]))
+            && empty(trim($_POST["lastname"]))
+            && empty(trim($_POST["email"]))
             && empty(trim($_POST["identification_no"]))
 
 
         ) {
-            $form_error = " Fill form.";
-        }
 
-    }else {
-        $name = $_POST["user_id"];
+            $form_error = " Fill form.";
+          echo 'please fill the form';
+
+          }else{
+
+        $firstname = $_POST["firstname"];
+        $lastname = $_POST["lastname"];
+        $email = $_POST["email"];
         $identification_no = $_POST["identification_no"];
 
+        $sql = "INSERT INTO driver(id, user_id,firstname, lastname, email, identification_no) VALUES ('2','1','$firstname', '$lastname', '$email', '$identification_no')";
 
-        $sql = "INSERT INTO driver(user_id, identification_no) VALUES ('$user_id', '$identification_no')";
+        // echo (mysqli_query($conn,$sql));
+
+        $enter = mysqli_query($conn, $sql);;
+
+        }
+        // Validate name
+        if (strlen(trim($_POST["firstname"])) < 3) {
+            $name_err = "name must have at least 3 characters.";
+        }
+        if (strlen(trim($_POST["lastname"])) < 3) {
+            $name_err = "name must have at least 3 characters.";
+        }
+
+    }
+    else {
+
+        $firstname = $_POST["firstname"];
+        $lastname = $_POST["lastname"];
+        $email = $_POST["email"];
+        $identification_no = $_POST["identification_no"];
+
+        $sql = "INSERT INTO driver(id,user_id,firstname, lastname, email, identification_no) VALUES ('2','1','$firstname', '$lastname', '$email', '$identification_no')";
 
         // echo (mysqli_query($conn,$sql));
 
         $enter = mysqli_query($conn, $sql);
     }
+    //var_dump($_POST);
 
 } elseif (isset($_POST['create_edit'])) {
 
     $driver_id = $_POST["driver_id"];
 
-    // echo $ id;
+    // echo $driver_id;
 
-    $name = $_POST["user_id"];
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
+    $email = $_POST["email"];
     $identification_no = $_POST["identification_no"];
 
-    $sql = "UPDATE driver SET user-id = '$user_id', identification_no = '$identification_no'  WHERE id='$driver_id'";
+    $sql = "UPDATE driver SET firstname = '$firstname', lastname = '$lastname', email= '$email', identification_no = '$identification_no' WHERE id='$driver_id'";
 
     $edit = mysqli_query($conn, $sql);
 
 } elseif (isset($_POST["delete_action"])) {
 
-    $driver_id = $_POST["driver_id"];
+    $driver_id = $_POST["ride_id"];
 
     $sql = "DELETE from driver WHERE id='$driver_id'";
 
@@ -79,10 +115,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $details = mysqli_fetch_row($data);
 
-    $user_id = $details[1];
-    $identification_no = $details[2];
+    $firstname = $details[2];
+    $lastname = $details[3];
+    $email = $details[4];
+    $identification_no = $details[5];
 
-$sql="select * from driver";
+}
+$sql="SELECT * FROM driver";
 
 $result=mysqli_query($conn,$sql);
 ?>
@@ -134,21 +173,30 @@ $result=mysqli_query($conn,$sql);
         //echo $form_error
         ?>
 
-        <form style="width: 400px;background: #fcfcfc;margin: 70px auto;">
+        <form action= "driveform.php" style="width: 400px;background: #fcfcfc;margin: 70px auto;" method="POST">
             <div class="form-group" >
-                <label for="formGroupExampleInput">user_id</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
+                <label for="formGroupExampleInput">Firstname</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Firstname" name="firstname" value="<?php echo $firstname ; ?>">
             </div>
             <div class="form-group">
-                <label for="formGroupExampleInput2">identification_no</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Phone no">
+                <label for="formGroupExampleInput2">Lastname</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Lastname" name="lastname" value="<?php echo $lastname ; ?>">
             </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Email</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Your Email" name="email" value="<?php echo $email ; ?>">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Identification_no</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Your ID No" name="identification_no" value="<?php echo $identification_no ; ?>" >
+            </div>
+
 
             <?php if(empty($id)){ ?>
 
                 <input type="hidden" value="create_new" name="create_new">
             <?php }else { ?>
-                <input type="hidden" value="create_new" name="create_edit">
+                <input type="hidden" value="create_edit" name="create_edit">
 
                 <input type="hidden" value="<?php echo $driver_id; ?>" name="ride_id"/>
             <?php } ?>
@@ -160,8 +208,10 @@ $result=mysqli_query($conn,$sql);
 <table class="container">
 
     <tr>
-        <th> User_id </th>
-        <th> Identification_id </th>
+        <th> Firstname </th>
+        <th> Lastname </th>
+        <th> Email </th>
+        <th> Identification_no </th>
         <th> Action </th>
 
     </tr>
@@ -169,13 +219,15 @@ $result=mysqli_query($conn,$sql);
     <?php
     while($array=mysqli_fetch_row($result)){ ?>
     <tr>
-        <td class="text-center"><?php echo $array[1]; ?></td>
         <td class="text-center"><?php echo $array[2]; ?></td>
+        <td class="text-center"><?php echo $array[3]; ?></td>
+        <td class="text-center"><?php echo $array[4]; ?></td>
+        <td class="text-center"><?php echo $array[5]; ?></td>
 
 
 
         <td>
-            <form action="./driveform.php" method="post">
+            <form action="driveform.php" method="POST">
                 <input type="hidden" name="driver_id" value="<?php echo $array[0]; ?>">
 
                 <input type="hidden" value="delete_action" name="delete_action">
@@ -195,6 +247,5 @@ $result=mysqli_query($conn,$sql);
             </form>
         </td>
         <?php } ?>
-    <?php } ?>
 </body>
 </html>

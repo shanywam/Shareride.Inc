@@ -7,7 +7,7 @@
     <script src ="./js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <title>Shareride.Inc &#8211; Kenya&#039;s Taxi App &#8211; Based in Nairobi</title>
-    <link href="https://fonts.googleapis.com/css?family=Merienda|Open+Sans+Condensed:300|PT+Sans+Narrow" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Dosis|PT+Sans+Narrow" rel="stylesheet">
 
 </head>
 <body>
@@ -60,34 +60,34 @@
             <div class="row">
                 <div class="col-sm">
                     <b><h>About</h></b><br/><br/>
-                    <h style="color:grey">Shareride.Inc is a ride hailing website based in Nairobi, Kenya.</h><br/>
-                    <h style="color:grey">we provide safe and reliable transport in the city of Nairobi.</h><br/>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">Shareride.Inc is a ride hailing website based in Nairobi, Kenya.</h><br/>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">we provide safe and reliable transport in the city of Nairobi.</h><br/>
                     <br/><br/>
 
                 </div>
                 <div class="col-sm">
                     <b><h>Services</h></b><br/><br/>
-                    <h style="color:grey">Register to be a driver</h><br/>
-                    <h style="color:grey">Book for a ride</h><br/>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">Register to be a driver</h><br/>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">Book for a ride</h><br/>
 
                 </div>
                 <div class="col-sm">
                     <b><h>Contacts</h></b><br/><br/>
-                    <h style="color:grey">+254 71 958 2000</h><br/>
-                    <h style="color:grey">+254 70 765 8859 </h><br/>
-                    <h style="color:grey">+254 72 086 3269</h><br/>
-                    <h style="color:grey">+254 71 442 8358 </h><br/>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">+254 71 958 2000</h><br/>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">+254 70 765 8859 </h><br/>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">+254 72 086 3269</h><br/>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">+254 71 442 8358 </h><br/>
                     <br/><br/>
                 </div>
                 <div class="col-sm">
                     <b><h>Emails</h></b><br/><br/>
-                    <h style="color:grey">pnjeru_@shareride.com</h>
-                    <h style="color:grey">nshawn@shareride.com</h>
-                    <h style="color:grey">lnnderitu@shareride.com</h>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">pnjeru_@shareride.com</h>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">nshawn@shareride.com</h>
+                    <h style="color:grey;font-family: 'Dancing Script', cursive;">lnnderitu@shareride.com</h>
                     <br/><br/>
 
                     <br/><br/><br/><br/><br/>
-                    <p style="float:right"><font size="-1">2019 Shareride.Inc</font></p>
+                    <p style="float:right;font-family: 'Dancing Script', cursive;"><font size="-1">2019 Shareride.Inc</font></p>
 
                 </div>
             </div>
@@ -97,7 +97,7 @@
                 <div class="col-sm">
                 </div>
                 <div class="col-sm">
-                    <center><p><font size="-1">Privacy  Terms  Legal  Site Map  Site Feedback</font></p></center>
+                    <center><p><font size="-1"><span style="font-family: 'Dancing Script', cursive;">Privacy  Terms  Legal  Site Map  Site Feedback</span></font></p></center>
                 </div>
                 <div class="col-sm">
                 </div>
