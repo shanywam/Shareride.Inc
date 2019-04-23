@@ -1,16 +1,12 @@
 <?php
-
 include "db_config.php";
-
-class User
+class  User
 {
-
     public $conn;
 
     public function __construct()
     {
-        $db = new DbConfig();
-
+        $db = new Dbconfig();
         $this->conn = $db->connect();
     }
 
@@ -19,39 +15,31 @@ class User
         return mysqli_prepare($this->conn, $sql);
     }
 
-
     /*** for registration process ***/
     public function reg_user($firstname, $lastname, $email, $password, $confirm_password)
     {
+        $param_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $password = md5($password);
-        $confirm_password = md5($confirm_password);
 
         $sql = "SELECT * FROM users WHERE  email='$email'";
-        //checking if the  email is available inz db
 
+        //checking if the  email is available inz db
         $check = $this->conn->query($sql);
         $count_row = $check->num_rows;
 
-        //var_dump($check);
-        // var_dump($count_row);
 
         //if the email is not in db then insert to the table
         if ($count_row == 0) {
-            //var_dump("$firstname");
 
             $sql1 = "INSERT INTO users (firstname,lastname,email,password,confirm_password,user_type_id) 
-                            VALUES ('$firstname','$lastname','$email','$password','$confirm_password','2')";
-            //var_dump($sql1);
-            $result = mysqli_query($this->conn, $sql1) or die(mysqli_connect_errno() . " something went wrong");
+                                VALUES ('$firstname','$lastname','$email','$param_password',2)";
+
+            $result = mysqli_query($this->conn, $sql1);
+
             return $result;
-
-            //var_dump($sql1);
-
         } else {
             return false;
         }
-
     }
 
     public function is_logged_in()
@@ -69,40 +57,49 @@ class User
     }
 
     /*** for login process ***/
-
     public function check_login($email, $password)
     {
+        $sql2 = "SELECT id, email , password, user_type_id FROM users WHERE email= '$email' ";
 
-        $sql2 = "SELECT id, email , password, user_type_id FROM users WHERE email='$email'";
+        $result = mysqli_prepare($this->conn, $sql2);
 
+            if (mysqli_stmt_execute($result))
+            {
+                //store result
+                mysqli_stmt_store_result($result);
 
+                //check email if exist
+                if (mysqli_stmt_num_rows($result) == 1) {
+                    //bind result
+                    mysqli_stmt_bind_result($result, $id, $email, $hashed_password, $user_type);
 
-        $result = mysqli_query($this->conn, $sql2);
-        //$mysqli_result = mysqli_fetch_array($result);
+                    if (mysqli_stmt_fetch($result)) {
+                        //echo $password . ' ' .$hashed_password;
 
+                       if ( password_verify($password, $hashed_password)){
+                           return true;
+                       };
 
-        $user_data = 'num_rows';
+                       return false;
+                    }
+                }
+                $user_data = 'num_rows';
+                if (!empty($user_data->num_rows)) {
+                    $count_row = $user_data->num_rows;
+                }
 
-        if (!empty($user_data->num_rows)) {
-            $count_row = $user_data->num_rows;
-        }
+                //if ($count_row == 0) {
+                // this login var will use for the session thing
+                //session variables
+                $_SESSION["login"] = true;
+                $_SESSION['email'] = $email;
+                $_SESSION["user_type"] = $user_type;
+                //$_SESSION['uid'] = $user_data;
+                return true;
 
-        //if ($count_row == 0) {
-            // this login var will use for the session thing
+            }
 
-
-        //session variables
-            $_SESSION["login"] = true;
-
-            $_SESSION['email'] = $email;
-            $_SESSION["user_type_id"] = $user_type_id;
-            $_SESSION['uid'] = $user_data;
-            return true;
-        //} else {
-           // return false;
-       // }
     }
-
     /*** starting the session ***/
 
     public function get_session()

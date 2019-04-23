@@ -214,8 +214,9 @@ $result=mysqli_query($conn,$sql);
         <input type="hidden" value="delete_action" name="delete_action">
 
         <button type="submit" class="btn btn-primary">Delete</button>
-                    </form>
-                  <form action="rideform.php" method="POST">
+    </form>
+        <br>
+        <form action="rideform.php" method="POST">
 
         <input type="hidden" name="ride_id" value="<?php echo $array[0]; ?>">
 

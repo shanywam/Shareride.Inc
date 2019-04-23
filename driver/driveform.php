@@ -1,129 +1,87 @@
 <?php
-//session_start();
+session_start();
 
+require_once('../backend/db_config.php');
 
-require_once ('../backend/db_config.php');
-
-
-/*if ($reg_user->is_logged_in()) {
-    if ($_SESSION['user_type'] == 1) {
-        $reg_user->redirect('../driver/drive.php');
-    } else {
-        $reg_user->redirect('../client/ride.php');
-    }
-}*/
 
 $form_error  = $delete_error = $date = $success_message = '';
 $show_form  = false;
-$id = $user_id =$firstname  = $lastname = $email = $identification_no =  "";
+$id = $user_id  = $firstname = $lastname = $email= $identification_no = "";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    //var_dump($_POST);
-
+    // Validate Form
     if (isset($_POST['create_new'])) { // creating new
 
-        //$driver ='reg_driver';
-        //$driverform = $reg_driver->reg_driver($firstname, $lastname, $email, $identification_no );
-
         if (
-
             empty(trim($_POST["firstname"]))
             && empty(trim($_POST["lastname"]))
             && empty(trim($_POST["email"]))
             && empty(trim($_POST["identification_no"]))
 
-
         ) {
-
             $form_error = " Fill form.";
-          echo 'please fill the form';
+            echo 'please fill form';
 
-          }else{
+        } else {
+            $firstname = $_POST["firstname"];
+            $lastname = $_POST["lastname"];
+            $email = $_POST["email"];
+            $identification_no = $_POST["identification_no"];
 
+            $sql = "INSERT INTO driver(firstname, lastname, email, identification_no) VALUES ('$firstname', '$lastname', '$email', '$identification_no')";
+
+            $enter = mysqli_query($conn, $sql);
+
+            //var_dump($conn, $sql, $enter);
+        }
+
+    } elseif (isset($_POST['create_edit'])) {
+        $driver_id = $_POST["driver_id"];
+        
         $firstname = $_POST["firstname"];
         $lastname = $_POST["lastname"];
         $email = $_POST["email"];
         $identification_no = $_POST["identification_no"];
 
-        $sql = "INSERT INTO driver(id, user_id,firstname, lastname, email, identification_no) VALUES ('2','1','$firstname', '$lastname', '$email', '$identification_no')";
+        $sql = "UPDATE driver SET firstname = '$firstname', lastname = '$lastname', email = '$email', identification_no = '$identification_no'  WHERE id='$driver_id'";
 
-        // echo (mysqli_query($conn,$sql));
+        $edit = mysqli_query($conn, $sql);
 
-        $enter = mysqli_query($conn, $sql);;
+    } elseif (isset($_POST["delete_action"])) {
 
+        $driver_id = $_POST["driver_id"];
+
+        $sql = "DELETE from driver WHERE id='$driver_id'";
+
+        if (mysqli_query($conn, $sql)) {
+            header("location: driveform.php");
+        } else {
+            $delete_error = "Deletion process was unsuccessful";
         }
-        // Validate name
-        if (strlen(trim($_POST["firstname"])) < 3) {
-            $name_err = "name must have at least 3 characters.";
-        }
-        if (strlen(trim($_POST["lastname"])) < 3) {
-            $name_err = "name must have at least 3 characters.";
-        }
+
+    } elseif (isset($_POST['edit_action'])) {
+
+        $driver_id = $_POST["driver_id"];
+
+        $sql = "SELECT * FROM driver WHERE id = '$driver_id'";
+
+        $data = mysqli_query($conn, $sql);
+
+        $details = mysqli_fetch_row($data);
+
+        $firstname = $details[2];
+        $lastname = $details[3];
+        $email = $details[4];
+        $identification_no= $details[5];
 
     }
-    else {
-
-        $firstname = $_POST["firstname"];
-        $lastname = $_POST["lastname"];
-        $email = $_POST["email"];
-        $identification_no = $_POST["identification_no"];
-
-        $sql = "INSERT INTO driver(id,user_id,firstname, lastname, email, identification_no) VALUES ('2','1','$firstname', '$lastname', '$email', '$identification_no')";
-
-        // echo (mysqli_query($conn,$sql));
-
-        $enter = mysqli_query($conn, $sql);
-    }
-    //var_dump($_POST);
-
-} elseif (isset($_POST['create_edit'])) {
-
-    $driver_id = $_POST["driver_id"];
-
-    // echo $driver_id;
-
-    $firstname = $_POST["firstname"];
-    $lastname = $_POST["lastname"];
-    $email = $_POST["email"];
-    $identification_no = $_POST["identification_no"];
-
-    $sql = "UPDATE driver SET firstname = '$firstname', lastname = '$lastname', email= '$email', identification_no = '$identification_no' WHERE id='$driver_id'";
-
-    $edit = mysqli_query($conn, $sql);
-
-} elseif (isset($_POST["delete_action"])) {
-
-    $driver_id = $_POST["ride_id"];
-
-    $sql = "DELETE from driver WHERE id='$driver_id'";
-
-    if (mysqli_query($conn, $sql)) {
-        header("location: driverform.php");
-    } else {
-        $delete_error = "Deletion process was unsuccessful";
-    }
-
-} elseif (isset($_POST['edit_action'])) {
-
-    $driver_id = $_POST["driver_id"];
-
-    $sql = "SELECT * FROM driver WHERE id = '$driver_id'";
-
-    $data = mysqli_query($conn, $sql);
-
-    $details = mysqli_fetch_row($data);
-
-    $firstname = $details[2];
-    $lastname = $details[3];
-    $email = $details[4];
-    $identification_no = $details[5];
-
 }
 $sql="SELECT * FROM driver";
 
 $result=mysqli_query($conn,$sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -190,15 +148,13 @@ $result=mysqli_query($conn,$sql);
                 <label for="formGroupExampleInput2">Identification_no</label>
                 <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Your ID No" name="identification_no" value="<?php echo $identification_no ; ?>" >
             </div>
-
-
-            <?php if(empty($id)){ ?>
+            <?php if(empty($driver_id)){ ?>
 
                 <input type="hidden" value="create_new" name="create_new">
             <?php }else { ?>
                 <input type="hidden" value="create_edit" name="create_edit">
 
-                <input type="hidden" value="<?php echo $driver_id; ?>" name="ride_id"/>
+                <input type="hidden" value="<?php echo $driver_id; ?>" name="driver_id"/>
             <?php } ?>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -233,10 +189,10 @@ $result=mysqli_query($conn,$sql);
                 <input type="hidden" value="delete_action" name="delete_action">
 
                 <button type="submit" class="btn btn-primary">Delete</button>
-                <!--            </form>-->
-                <!--            </br>-->
-                <!---->
-                <!--            <form action="books.php" method="post">-->
+                            </form>
+                           <br>
+
+                          <form action="driveform.php" method="post">
 
                 <input type="hidden" name="driver_id" value="<?php echo $array[0]; ?>">
 

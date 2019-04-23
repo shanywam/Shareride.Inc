@@ -1,43 +1,8 @@
 <?php
 session_start();
 
-	    include_once '../backend/auth.php';
-
-	    $user = new User();
-	    if (isset($_REQUEST['submit']))
-	    {
-	        extract($_REQUEST);
-
-           // $password ='';
-            //$email ='';
-
-            $login = $user->check_login($email, $password);
-	        if ($login ['user_type_id'] == 1) {
-	             //Registration Success
-	           header("../location:drive.php");
-
-	        } elseif ($login ['user_type_id'] == 2) {
-	            header("../location:ride.php");
-
-	        } else {
-            $form_err = "Please check your details are correct";
-
-	    }}
-
-                    //Redirect user according to user type
-$user_type_id ='user_type_id';
-if ($user_type_id == 1) {
-                                //driver
-                                header("location: drive.php");
-                            } elseif($user_type_id == 2){
-                                //client
-                                header("location: ride.php");
-                            }
-
-$email = $password = "";
-$user_type_id = 'user_type_id';
-$email_err = $password_err = $form_err = "";
-
+include_once '../backend/auth.php';
+$user = new User();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -55,7 +20,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     }
 
 
+    if ($user->check_login($email, $password)){
+        $user->redirect('driver/drive.php');
+        $user->redirect('client/ride.php');
+
+    }else{
+        echo "not logged in";
+    }
+
+
+
+
+
 }
+
+
+
+if (isset($_REQUEST['submit']))
+{
+    extract($_REQUEST);
+
+    $login = $user->check_login($email, $password);
+
+    if ($login ['user_type_id'] == 1) {
+        //Registration Success
+        header("../location:drive.php");
+    } elseif ($login ['user_type_id'] == 2) {
+        header("../location:ride.php");
+    } else {
+        $form_err = "Please check your details are correct";
+    }
+}
+
+$email = $password = "";
+$user_type_id = 'user_type_id';
+$email_err = $password_err = $form_err = "";
+
+
+//close statement
+//mysqli_stmt_close($result);
+
+//close connection
+//mysqli_close($conn)
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -116,15 +123,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 }
                 else if(form.password.value == "")
                 {
-                        alert( "Enter password." );
-                        return false;
+                    alert( "Enter password." );
+                    return false;
                 }
             }
         </script>
-
         <span style="font-family: 'Courier 10 Pitch', Courier, monospace; font-size: 13px; font-style: normal; line-height: 1.5;"><div id="container"></span>
         <h3>Login Here</h3>
-        <form action="" method="post" name="login">
+        <form action="login.php" method="post" name="">
             <table>
                 <tbody>
                 <tr>
@@ -148,7 +154,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         header("location: ride.php");
                     }
                     ?>
-
                 </tr>
                 <tr>
                     <td></td>
@@ -157,9 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 </tbody>
             </table>
         </form></div>
-    </div>
 </div>
-
+</div>
 </body>
 </html>
-

@@ -1,31 +1,23 @@
 <?php
-        include_once '../backend/auth.php';
+include_once '../backend/auth.php';
 
-        $user = new User(); // initialize user
+$user = new User(); // initialize user
 
-        //var_dump(isset($_REQUEST['submit']));
-        if (isset($_REQUEST['submit'])) {
-            extract($_REQUEST);
+//var_dump(isset($_REQUEST['submit']));
+if (isset($_REQUEST['submit'])) {
+    extract($_REQUEST);
 
-            $confirm_password = '$password';
+    $confirm_password = '$password';
+    $register = $user->reg_user($firstname, $lastname, $email, $password, $confirm_password);
 
-            $register = $user->reg_user($firstname, $lastname, $email, $password, $confirm_password);
-            //var_dump($register);
-            if ($register) {
-
-                // redirect to login page
-                header("location: login.php");
-            } //else {
-               // echo "Something went wrong. Please try again later.";
-            // else
-               // {
-
-                    // Registration Failed
-                    //echo 'Registration failed. Email or Username already exits please try again';
-               // }
-
-
-        }
+    if ($register) {
+        // redirect to login page
+        header("location: login.php");
+    } //else
+        //{
+        //echo "Something went wrong. Please try again later.";
+        //}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -87,13 +79,13 @@
                     return false;
                 }
                 else if(form.lname.value == ""){
-                        alert( "Enter username." );
-                        return false;
-                    }
+                    alert( "Enter username." );
+                    return false;
+                }
                 else if(form.email.value == ""){
-                        alert( "Enter email." );
-                        return false;
-                    }
+                    alert( "Enter email." );
+                    return false;
+                }
                 else if(form.pass.value == ""){
                     alert( "Enter password." );
                     return false;
@@ -144,5 +136,3 @@
 </div>
 </body>
 </html>
-
-
