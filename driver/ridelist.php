@@ -3,109 +3,26 @@ session_start();
 
 require_once('../backend/db_config.php');
 
-//$reg_user = new User();
+$data = new DbConfig();
+$conn = $data->connect();
 
-/*if ($reg_user->is_logged_in()) {
-    if ($_SESSION['user_type'] == 1) {
-        $reg_user->redirect('../driver/drive.php');
-    } else {
-        $reg_user->redirect('../client/ride.php');
-    }
-}*/
-
-$form_error  = $delete_error = $date = $success_message = '';
-$show_form  = false;
-$id = $name  = $phone = $origin = $destination = $capacity_of_vehicle = $user_id = "";
+$view_error  = $delete_error = $success_message = '';
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-
-    var_dump($_POST);
-    // Validate Form
-    if (isset($_POST['create_new'])) { // creating new
-
-        if (
-            empty(trim($_POST["name"]))
-            && empty(trim($_POST["phone"]))
-            && empty(trim($_POST["origin"]))
-            && empty(trim($_POST["destination"]))
-            && empty(trim($_POST["capacity_of_vehicle"]))
-
-        ) {
-            $form_error = " Fill form.";
-            echo 'please fill';
-        }
-        // Validate name
-        if (strlen(trim($_POST["name"])) < 3) {
-            $name_err = "name must have at least 6 characters.";
-        }
-        // Validate Password
-        if (strlen(trim($_POST["password"])) < 6) {
-            $password_err = "Password must have at least 6 characters.";
-        } else {
-            $password = trim($_POST["password"]);
-        }
-    }else {
-        $name = $_POST["name"];
-        $phone = $_POST["phone"];
-        $origin = $_POST["origin"];
-        $destination = $_POST["destination"];
-        $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
-
-        $sql = "INSERT into rides(name, phone, origin, destination, capacity_of_vehicle) VALUES ('$name', '$phone', '$origin', '$destination', '$capacity_of_vehicle')";
-
-        // echo (mysqli_query($conn,$sql));
-
-        $enter = mysqli_query($conn, $sql);
-
-        var_dump($enter);
-    }
-
-} elseif (isset($_POST['create_edit'])) {
-
-    $ride_id = $_POST["ride_id"];
-
-    // echo $books_id;
-
-    $name = $_POST["name"];
-    $phone = $_POST["phone"];
-    $origin = $_POST["origin"];
-    $destination = $_POST["destination"];
-    $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
-
-    $sql = "UPDATE rides SET name = '$name', phone = '$phone', origin = '$origin', destination = '$destination', capacity_of_vehicle = '$capacity_of_vehicle'  WHERE id='$ride_id'";
-
-    $edit = mysqli_query($conn, $sql);
-
-} elseif (isset($_POST["delete_action"])) {
+if (isset($_POST["deleteRide"])) {
 
     $ride_id = $_POST["ride_id"];
 
     $sql = "DELETE from rides WHERE id='$ride_id'";
 
     if (mysqli_query($conn, $sql)) {
-        header("location: rides.php");
+
     } else {
         $delete_error = "Deletion process was unsuccessful";
     }
 
-} elseif (isset($_POST['edit_action'])) {
-
-    $ride_id = $_POST["ride_id"];
-
-    $sql = "SELECT * FROM rides WHERE id = '$ride_id'";
-
-    $data = mysqli_query($conn, $sql);
-
-    $details = mysqli_fetch_row($data);
-
-    $name = $details[1];
-    $phone = $details[2];
-    $origin = $details[3];
-    $destination = $details[4];
-    $capacity_of_vehicle = $details[5];
 }
+
 $sql="select * from rides";
 
 $result=mysqli_query($conn,$sql);
@@ -144,9 +61,11 @@ $result=mysqli_query($conn,$sql);
     <div id="ra_header_container_5ca64c7c3a2e8" class="modules-container ra_header_container_5ca64c7c3a2e8  vc_custom_1528890373974"></div>
     <script type="text/javascript">(function($) {$("head").append("<style>.rella-row-shadowbox-5ca64c7c34b20{-webkit-box-shadow:;-moz-box-shadow:;box-shadow:;}</style>");})(jQuery);</script>
 </nav>
-        <p><?php echo $form_error ?></p>
+
         <p><?php echo $delete_error?></p>
+        <p><?php echo $view_error?></p>
         <p><?php echo $success_message; ?></p>
+
 
 
 
@@ -173,22 +92,10 @@ $result=mysqli_query($conn,$sql);
 
 
         <td>
-            <form action="../ride.php" method="post">
-                <input type="hidden" name="rides_id" value="<?php echo $array[0]; ?>">
-
-                <input type="hidden" value="delete_action" name="delete_action">
-
-                <button type="submit" class="btn btn-primary">Delete</button>
-                <!--            </form>-->
-                <!--            </br>-->
-                <!---->
-                <!--            <form action="ride.php" method="post">-->
-
+            <form method="post">
                 <input type="hidden" name="ride_id" value="<?php echo $array[0]; ?>">
 
-                <input type="hidden" name="edit_action" value="edit_action">
-
-                <button type="submit" class="btn btn-primary">Edit</button>
+                <button type="submit" name="deleteRide" class="btn btn-primary">Delete</button>
 
             </form>
         </td>

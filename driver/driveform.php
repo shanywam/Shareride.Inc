@@ -1,87 +1,66 @@
+
 <?php
 session_start();
-
 require_once('../backend/db_config.php');
-
+$data = new DbConfig();
+$conn = $data->connect();
 
 $form_error  = $delete_error = $date = $success_message = '';
 $show_form  = false;
 $id = $user_id  = $firstname = $lastname = $email= $identification_no = "";
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     // Validate Form
     if (isset($_POST['create_new'])) { // creating new
-
         if (
             empty(trim($_POST["firstname"]))
             && empty(trim($_POST["lastname"]))
             && empty(trim($_POST["email"]))
             && empty(trim($_POST["identification_no"]))
-
         ) {
             $form_error = " Fill form.";
             echo 'please fill form';
-
         } else {
             $firstname = $_POST["firstname"];
             $lastname = $_POST["lastname"];
             $email = $_POST["email"];
             $identification_no = $_POST["identification_no"];
-
-            $sql = "INSERT INTO driver(firstname, lastname, email, identification_no) VALUES ('$firstname', '$lastname', '$email', '$identification_no')";
-
+            $userID = 1;
+            $sql = "INSERT INTO driver(user_id, firstname, lastname, email, identification_no) VALUES ('$userID', '$firstname', '$lastname', '$email', '$identification_no')";
             $enter = mysqli_query($conn, $sql);
-
             //var_dump($conn, $sql, $enter);
         }
-
     } elseif (isset($_POST['create_edit'])) {
         $driver_id = $_POST["driver_id"];
-        
+
         $firstname = $_POST["firstname"];
         $lastname = $_POST["lastname"];
         $email = $_POST["email"];
         $identification_no = $_POST["identification_no"];
-
         $sql = "UPDATE driver SET firstname = '$firstname', lastname = '$lastname', email = '$email', identification_no = '$identification_no'  WHERE id='$driver_id'";
-
         $edit = mysqli_query($conn, $sql);
-
     } elseif (isset($_POST["delete_action"])) {
-
         $driver_id = $_POST["driver_id"];
 var_dump($_POST);
         $sql = "DELETE from driver WHERE id='$driver_id'";
-
         if (mysqli_query($conn, $sql)) {
             header("location: driveform.php");
         } else {
             $delete_error = "Deletion process was unsuccessful";
         }
-
     } elseif (isset($_POST['edit_action'])) {
-
         $driver_id = $_POST["driver_id"];
 var_dump($_POST);
         $sql = "SELECT * FROM driver WHERE id = '$driver_id'";
-
         $data = mysqli_query($conn, $sql);
-
         $details = mysqli_fetch_row($data);
-
         $firstname = $details[2];
         $lastname = $details[3];
         $email = $details[4];
         $identification_no= $details[5];
-
     }
 }
 $sql="SELECT * FROM driver";
-
 $result=mysqli_query($conn,$sql);
-
 ?>
 
 <!DOCTYPE html>

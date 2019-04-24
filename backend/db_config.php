@@ -7,17 +7,22 @@ class DbConfig
     private $password = "secret";
     private $database = "shareride";
     private $port = "3306";
-
     public $conn;
 
-    // database connection function
+    // Database connection function
     public function connect()
     {
+        $this->conn = null;
+
         try{
-            $this->conn = mysqli_connect("127.0.0.1", 'shareride', 'secret', 'shareride', '3306');
-        }catch(mysqli_sql_exception $exception){
+
+            $this->conn = mysqli_connect($this->host, $this->username, $this->password, $this->database, $this->port);
+
+        } catch(mysqli_sql_exception $exception) {
+
             echo "Connection error" . $exception->getMessage();
         }
+
         return $this->conn;
     }
 }

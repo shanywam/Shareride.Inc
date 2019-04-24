@@ -2,16 +2,8 @@
 session_start();
 
 require_once('../backend/db_config.php');
-
-//$reg_user = new User();
-
-/*if ($reg_user->is_logged_in()) {
-    if ($_SESSION['user_type'] == 1) {
-        $reg_user->redirect('../driver/drive.php');
-    } else {
-        $reg_user->redirect('../client/ride.php');
-    }
-}*/
+$data = new DbConfig();
+$conn = $data->connect();
 
 $form_error  = $delete_error = $date = $success_message = '';
 $show_form  = false;
