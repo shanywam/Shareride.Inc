@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (isset($_POST["delete_action"])) {
 
         $driver_id = $_POST["driver_id"];
-
+var_dump($_POST);
         $sql = "DELETE from driver WHERE id='$driver_id'";
 
         if (mysqli_query($conn, $sql)) {
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (isset($_POST['edit_action'])) {
 
         $driver_id = $_POST["driver_id"];
-
+var_dump($_POST);
         $sql = "SELECT * FROM driver WHERE id = '$driver_id'";
 
         $data = mysqli_query($conn, $sql);
@@ -172,8 +172,7 @@ $result=mysqli_query($conn,$sql);
 
     </tr>
 
-    <?php
-    while($array=mysqli_fetch_row($result)){ ?>
+    <?php while ($array=mysqli_fetch_row($result)){ ?>
     <tr>
         <td class="text-center"><?php echo $array[2]; ?></td>
         <td class="text-center"><?php echo $array[3]; ?></td>
