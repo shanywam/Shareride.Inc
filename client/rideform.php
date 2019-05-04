@@ -1,98 +1,65 @@
 <?php
-session_start();
-
-require_once('../backend/db_config.php');
-$data = new DbConfig();
-$conn = $data->connect();
-
-$form_error  = $delete_error = $date = $success_message = '';
-$show_form  = false;
-$id = $name  = $phone = $origin = $destination = $capacity_of_vehicle = $user_id = "";
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+include('../backend/db_config.php');
 
-    // Validate Form
-    if (isset($_POST['create_new'])) { // creating new
+$connection = new Database();
 
-        if (
-            empty(trim($_POST["name"]))
-            && empty(trim($_POST["phone"]))
-            && empty(trim($_POST["origin"]))
-            && empty(trim($_POST["destination"]))
-            && empty(trim($_POST["capacity_of_vehicle"]))
+$conn = $connection->dbConnect();
 
-        ) {
-            $form_error = " Fill form.";
-            echo 'please fill form';
+if (isset($_POST['rideForm'])) {
+
+
+
+    $origin = $_POST['origin'];
+
+    $destination = $_POST['destination'];
+
+    $vehicle_capacity = $_POST['vehicle_capacity'];
+
+    $identification = $_POST['identification'];
+
+
+
+    $type = 2;
+
+
+    if (!empty($origin) && !empty($destination) && !empty($vehicle_capacity && !empty($identification)) ) {
+
+
+        $results = $conn->query("SELECT * from reserevations WHERE identification='$identification'");
+
+        $count = $results->num_rows;
+
+        if ($count == 0) {
+
+            $query = "INSERT into reservations(  origin, destination, vehicle_capacity, identification, client_id,  driver_id) VALUES(?, ?, ?, ?, ?, ?)";
+
+            $statement = $conn->prepare($query);
+
+            $statement->bind_param('ssiiii',  $origin, $destination, $capacity_of_people, $identification,$client_id, $driver_id);
+
+            if ($statement->execute()) {
+
+                echo "Success";
+
+            } else {
+
+                die('There was a problem');
+
+            }
 
         } else {
-            $name = $_POST["name"];
-            $phone = $_POST["phone"];
-            $origin = $_POST["origin"];
-            $destination = $_POST["destination"];
-            $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
 
-            $sql = "INSERT INTO rides (name, phone, origin, departure, capacity_of_vehicle) VALUES ('$name', '$phone', '$origin', '$destination', '$capacity_of_vehicle')";
-
-            // echo (mysqli_query($conn,$sql));
-
-
-
-            $enter = mysqli_query($conn, $sql);
-
-            //var_dump($conn, $sql, $enter);
+            echo "Sorry the Identification Exist";
         }
 
-    } elseif (isset($_POST['create_edit'])) {
 
-        //var_dump($_POST);
-        $ride_id = $_POST["ride_id"];
-
-
-
-        $name = $_POST["name"];
-        $phone = $_POST["phone"];
-        $origin = $_POST["origin"];
-        $destination = $_POST["destination"];
-        $capacity_of_vehicle = $_POST["capacity_of_vehicle"];
-
-        $sql = "UPDATE rides SET name = '$name', phone = '$phone', origin = '$origin', destination = '$destination', capacity_of_vehicle = '$capacity_of_vehicle'  WHERE id='$ride_id'";
-
-        $edit = mysqli_query($conn, $sql);
-
-    } elseif (isset($_POST["delete_action"])) {
-
-        $ride_id = $_POST["ride_id"];
-
-        $sql = "DELETE from rides WHERE id='$ride_id'";
-
-        if (mysqli_query($conn, $sql)) {
-            header("location: rideform.php");
-        } else {
-            $delete_error = "Deletion process was unsuccessful";
-        }
-
-    } elseif (isset($_POST['edit_action'])) {
-
-        $ride_id = $_POST["ride_id"];
-
-        $sql = "SELECT * FROM rides WHERE id = '$ride_id'";
-
-        $data = mysqli_query($conn, $sql);
-
-        $details = mysqli_fetch_row($data);
-
-        $name = $details[1];
-        $phone = $details[2];
-        $origin = $details[3];
-        $destination = $details[4];
-        $capacity_of_vehicle = $details[5];
     }
-}
-$sql="SELECT * FROM rides";
 
-$result=mysqli_query($conn,$sql);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -142,82 +109,29 @@ $result=mysqli_query($conn,$sql);
         //echo $form_error
         ?>
 
-        <form style="width: 400px;background: #fcfcfc;margin: 70px auto;" method="POST" action="rideform.php">
-            <div class="form-group" >
-                <label for="formGroupExampleInput">Name</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" name="name" placeholder="Name" value="<?php echo $name;?>">
-            </div>
-            <div class="form-group">
-                <label for="formGroupExampleInput2">Phone</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" name="phone" placeholder="Phone no" value="<?php echo $phone;?>">
-            </div>
+        <form style="width: 400px;background: #fcfcfc;margin: 70px auto;" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+
             <div class="form-group">
                 <label for="formGroupExampleInput2">Origin</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" name="origin" placeholder="Pick up point"value="<?php echo $origin;?>">
+                <input type="text" class="form-control" id="formGroupExampleInput2" name="origin" placeholder="Pick up point" >
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2">Destination</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" name="destination" placeholder="Where to"value="<?php echo $destination;?>">
+                <input type="text" class="form-control" id="formGroupExampleInput2" name="destination" placeholder="Where to" >
             </div>
 
             <div class="form-group">
-                <label for="formGroupExampleInput2">Capacity of Vehicle</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" name="capacity_of_vehicle" placeholder="Capacity of Vehicle"value="<?php echo $capacity_of_vehicle;?>">
+                <label for="formGroupExampleInput2">capacity_of_people</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2"  name="capacity_of_people" placeholder="No of people" >
             </div>
-            <?php if(empty($ride_id)){ ?>
-
-                <input type="hidden" value="create_new" name="create_new">
-            <?php }else { ?>
-                <input type="hidden" value="create_edit" name="create_edit">
-
-                <input type="hidden" value="<?php echo $ride_id; ?>" name="ride_id"/>
-            <?php } ?>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Identification</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Your ID No" name="identification" >
+            </div>
+            <button type="submit" name="driverForm" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
 
-<table class="container">
-
-    <tr>
-        <th> Name </th>
-        <th> Phone </th>
-        <th> Origin </th>
-        <th> Destination </th>
-        <th> Capacity_of_vehicle </th>
-        <th> Action </th>
-
-    </tr>
-
-    <?php
-    while($array=mysqli_fetch_row($result)){ ?>
-    <tr>
-        <td class="text-center"><?php echo $array[1]; ?></td>
-        <td class="text-center"><?php echo $array[2]; ?></td>
-        <td class="text-center"><?php echo $array[3]; ?></td>
-        <td class="text-center"><?php echo $array[4]; ?></td>
-        <td class="text-center"><?php echo $array[5]; ?></td>
-
-
-    <td>
-    <form action="rideform.php" method="POST">
-        <input type="hidden" name="ride_id" value="<?php echo $array[0]; ?>">
-
-        <input type="hidden" value="delete_action" name="delete_action">
-
-        <button type="submit" class="btn btn-primary">Delete</button>
-    </form>
-        <br>
-        <form action="rideform.php" method="POST">
-
-        <input type="hidden" name="ride_id" value="<?php echo $array[0]; ?>">
-
-        <input type="hidden" name="edit_action" value="edit_action">
-
-        <button type="submit" class="btn btn-primary">Edit</button>
-
-    </form>
-    </td>
-    <?php } ?>
 </body>
 </html>
