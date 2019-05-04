@@ -1,44 +1,85 @@
 <?php
-include "db_config.php";
-class  User
+
+require_once 'db_config.php';
+
+class Auth
 {
-    public $conn;
+    private $conn;
+    private $email_err;
+    private $password_err;
 
     public function __construct()
     {
-        $db = new Dbconfig();
-        $this->conn = $db->connect();
+        $database = new Database();
+        $db = $database->dbConnect();
+        $this->conn = $db;
+        $this->email_err = $this->password_err = '';
     }
 
     public function runQuery($sql)
     {
+
         return mysqli_prepare($this->conn, $sql);
     }
 
-    /*** for registration process ***/
-    public function reg_user($firstname, $lastname, $email, $password, $confirm_password)
+    //function for the registration of the users
+    public function register($first_name, $last_name, $email, $phone, $password, $user_type)
     {
-        $param_password = password_hash($password, PASSWORD_DEFAULT);
+        //var_dump($first_name, $last_name, $email, $phone, $password, $user_type);
+        try {
+            $stmt = $this->runQuery("INSERT INTO users(first_name, last_name, email, phone,  password, user_type)
+                  VALUES('$first_name', '$last_name', '$email', '$phone', '$password' ,$user_type)");
 
 
-        $sql = "SELECT * FROM users WHERE  email='$email'";
+           // var_dump(mysqli_stmt_execute($stmt));
 
-        //checking if the  email is available inz db
-        $check = $this->conn->query($sql);
-        $count_row = $check->num_rows;
+            if (mysqli_stmt_execute($stmt)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (mysqli_sql_exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
 
+    //function for user login
+    public function login($email, $pass)
+    {
+        try {
+            $stmt = $this->runQuery("SELECT id, email, password, user_type FROM users WHERE email = '$email' AND deleted_at IS NULL OR deleted_at = ''");
 
-        //if the email is not in db then insert to the table
-        if ($count_row == 0) {
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_store_result($stmt);
 
-            $sql1 = "INSERT INTO users (firstname,lastname,email,password,confirm_password,user_type_id) 
-                                VALUES ('$firstname','$lastname','$email','$param_password',2)";
+                if (mysqli_stmt_num_rows($stmt) == 1) {
+                    mysqli_stmt_bind_result($stmt, $id, $email, $hashed_password, $user_type);
 
-            $result = mysqli_query($this->conn, $sql1);
+                    if (mysqli_stmt_fetch($stmt)) {
+                        // Password is correct, so start a new session
+                        if (password_verify($pass, $hashed_password)) {
+                            session_start();
 
-            return $result;
-        } else {
-            return false;
+                            // Store data in session variables
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["id"] = $id;
+                            $_SESSION["email"] = $email;
+                            $_SESSION["user_type"] = $user_type;
+
+                            return true;
+                        } else {
+                            $this->password_err = "The password you entered was not valid.";
+                            return false;
+                        }
+                    }
+                } else {
+                    $this->email_err = "No account found with that email address.";
+                    return false;
+                }
+            }
+
+        } catch (mysqli_sql_exception $ex) {
+            echo $ex->getMessage();
         }
     }
 
@@ -56,61 +97,11 @@ class  User
         header("Location: $url");
     }
 
-    /*** for login process ***/
-    public function check_login($email, $password)
+    public function logout()
     {
-        $sql2 = "SELECT id, email , password, user_type_id FROM users WHERE email= '$email' ";
-
-        $result = mysqli_prepare($this->conn, $sql2);
-
-            if (mysqli_stmt_execute($result))
-            {
-                //store result
-                mysqli_stmt_store_result($result);
-
-                //check email if exist
-                if (mysqli_stmt_num_rows($result) == 1) {
-                    //bind result
-                    mysqli_stmt_bind_result($result, $id, $email, $hashed_password, $user_type);
-
-                    if (mysqli_stmt_fetch($result)) {
-                        //echo $password . ' ' .$hashed_password;
-
-                       if ( password_verify($password, $hashed_password)){
-                           return true;
-                       };
-
-                       return false;
-                    }
-                }
-                $user_data = 'num_rows';
-                if (!empty($user_data->num_rows)) {
-                    $count_row = $user_data->num_rows;
-                }
-
-                //if ($count_row == 0) {
-                // this login var will use for the session thing
-                //session variables
-                $_SESSION["login"] = true;
-                $_SESSION['email'] = $email;
-                $_SESSION["user_type"] = $user_type;
-                //$_SESSION['uid'] = $user_data;
-                return true;
-
-            }
-
-    }
-    /*** starting the session ***/
-
-    public function get_session()
-    {
-        return $_SESSION['login'];
-    }
-
-    public function user_logout()
-    {
-        $_SESSION['login'] = FALSE;
         session_destroy();
+
+        $_SESSION['loggedin'] = false;
     }
 }
 ?>
