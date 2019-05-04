@@ -1,19 +1,4 @@
 <?php
-session_start();
-
-require_once '../backend/auth.php';
-
-$logged_user = new User();
-
-/*if (!$logged_user->is_logged_in()) {
-    $logged_user->redirect('../index.php');
-} else {
-    if ($_SESSION['user_type'] == 2) {
-        $logged_user->redirect('../client/ride.php');
-    }
-}*/
-
-
 
 ?>
 <!DOCTYPE html>
@@ -40,14 +25,8 @@ $logged_user = new User();
             <li class="nav-item active">
                 <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;"class="fa fa-home"></i> Home <span class="sr-only" >(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;font-family: 'Merienda', cursive; "class="fa fa-user"></i> Ride <span class="sr-only">(current)</span></a>
-            </li>
             <li class=" nav-item active">
                 <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-"></i> Logout <span class="sr-only">(current)</span> </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="driveform.php"><i style ="color:darkgrey ;"class="fa fa-"></i> To become a driver <span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
@@ -68,7 +47,7 @@ $logged_user = new User();
         ?>
 
         <?php// if ((isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === true) && $_SESSION['user_type'] == 1)
-            echo '<a href="../driver/drive.php">Admin Dash</a>'
+            echo '<a href="../driver/drive.php">drive</a>'
         ?>
 
         <?php if (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === true)
@@ -80,6 +59,9 @@ $logged_user = new User();
         ?>
     </div>
 </div>-->
+
+<br><br><br>
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -93,21 +75,54 @@ $logged_user = new User();
             </div>
         </div>
         <div class="col">
+
+            <br><br><br>
+
             <h1><span style="color: #00b6bd;font-family: 'Dosis', sans-serif;">Drive for Shareride.Inc</span></h1>
             <h2><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">We ll treat you like a professional</h2>
-            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">The difference between Shareride.Inc and other ride-sharing apps is:</span></p>
+            <h6><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">The difference between Shareride.Inc and other ride-sharing apps is:</span></h6>
             <ul>
             <li><span style="font-weight: 400;font-family: 'PT Sans Narrow', sans-serif;">We care about the safety of our drivers.</span></li>
             <li><span style="font-weight: 400;font-family: 'PT Sans Narrow', sans-serif;">We care about our drivers earnings .</span></li>
             <li><span style="font-weight: 400;font-family: 'PT Sans Narrow', sans-serif;">We care about providing the best tools for our drivers .</span></li>
             </ul>
-            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Driving for Shareride.Inc is different because we are locally-based in Nairobi. We relate to our drivers in a way other companies don&#8217;t .</span></p>
+            <h6><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Driving for Shareride.Inc is different because we are locally-based in Nairobi. We relate to our drivers in a way other companies don&#8217;t .</span></h6>
 
 
 
         </div>
-
     </div>
+</div>
+
+<br><br><br>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col">
+
+            <br><br><br><br><br>
+
+            <h1><span style="color: #00b6bd;font-family: 'Dosis', sans-serif;"> Shareride.Inc</span></h1>
+
+            <h6><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Drive with Shareride.Inc and earn great money as an independent contractor. In an area of your choice where it is busy thus being easy to cash in alot of money. Get paid weekly jest for helping the community of rides get rides around town. Be your own boss and get paid in fares for driving in your own schedule. </span></h6>
+
+        </div>
+        <div class="col">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="../image/driver11.jpg" class="d-block w-100" alt="..." style="height:300px;width:50%;color:rgba(255,255,255,1);border-radius:20px ">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+
     <div>
         <div style="background-color:rgba(211,211,211,0.5);">
             <br/><br/><br/>
