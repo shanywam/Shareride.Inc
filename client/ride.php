@@ -1,19 +1,4 @@
 <?php
-session_start();
-
-require_once '../backend/auth.php';
-
-$logged_user = new User();
-
-//if (!$logged_user->is_logged_in()) {
-    //$logged_user->redirect('../index.php');
-//} else {
-  //  if ($_SESSION['user_type'] == 1) {
-   //     $logged_user->redirect('../driver/drive.php');
-   // }
-//}
-
-
 
 ?>
 <!DOCTYPE html>
@@ -41,9 +26,6 @@ $logged_user = new User();
             <li class="nav-item active">
                 <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="../driver/drive.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-car"></i> Drive <span class="sr-only">(current)</span></a>
-            </li>
             <li class=" nav-item active">
                 <a class="nav-link" href="../client/rideform.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-"></i> Request Ride <span class="sr-only">(current)</span> </a>
             </li>
@@ -57,6 +39,9 @@ $logged_user = new User();
     <script type="text/javascript">(function($) {$("head").append("<style>.rella-row-shadowbox-5ca64c7c34b20{-webkit-box-shadow:;-moz-box-shadow:;box-shadow:;}</style>");})(jQuery);</script>
     </div>
 </nav>
+
+<br><br><br>
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -69,16 +54,22 @@ $logged_user = new User();
                 </div>
             </div>
         </div>
-        <div class="col"><br><br>
+        <div class="col">
+
+            <br><br>
+
             <h1><span style="color: #00b6bd;font-family: 'Dosis', sans-serif;">Ride with Shareride.Inc</span></h1>
             <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Use Shareride.Inc to get rides in minutes</span></p>
             <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Pick the ride you need, then a registered driver will be their to take you to wherever you want.</span> </p>
             <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">The rides are smooth as they can be with minimal interference.</span></p>
             <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Try today and be the first to experience what we have to offer</span></p>
-            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Riding with Shareride.Inc is different because we are locally-based in Nairobi. We treat our client with recpect and car&#8217;e .</span></p>
+            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Riding with Shareride.Inc is different because we are locally-based in Nairobi. We treat our client with respect and car&#8217;e .</span></p>
         </div>
     </div>
 </div>
+
+<br><br><br>
+
 <div class="container">
     <div class="row">
 
@@ -100,6 +91,38 @@ $logged_user = new User();
         </div>
 
     </div>
+</div>
+
+<br><br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="../image/driver12.jpg" class="d-block w-100" alt="..." style="height:400px;width:50%;color:rgba(255,255,255,1);border-radius:20px ">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col">
+
+            <br><br>
+
+            <h1><span style="color: #00b6bd;font-family: 'Dosis', sans-serif;"> Our Rides </span></h1>
+            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Having Shareride.Inc as your choice you will enjoy and interact with the drive on a personal level.</span></p>
+            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;"> You will also get to your destination with eaze..</span> </p>
+            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">Once you use it once you will not go back but will rather stay due to our excellent services</span></p>
+            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">The experience of riding with Shareride.Inc is different try it today and be the first to experience the best.</span></p>
+            <p><span style="font-weight: 400;font-family: 'Dosis', sans-serif;">It is also based locally in Nairobi. </span></p>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+
     <div>
         <div style="background-color:rgba(211,211,211,0.5);">
             <br/><br/><br/>
