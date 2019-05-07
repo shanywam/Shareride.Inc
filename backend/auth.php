@@ -25,13 +25,13 @@ class Auth
     //function for the registration of the users
     public function register($first_name, $last_name, $email, $phone, $password, $user_type)
     {
-        //var_dump($first_name, $last_name, $email, $phone, $password, $user_type);
+
         try {
             $stmt = $this->runQuery("INSERT INTO users(first_name, last_name, email, phone,  password, user_type)
                   VALUES('$first_name', '$last_name', '$email', '$phone', '$password' ,$user_type)");
 
 
-           // var_dump(mysqli_stmt_execute($stmt));
+            // var_dump(mysqli_stmt_execute($stmt));
 
             if (mysqli_stmt_execute($stmt)) {
                 return true;
@@ -103,5 +103,61 @@ class Auth
 
         $_SESSION['loggedin'] = false;
     }
+
+    public function ride ($origin, $destination, $vehicle_capacity, $identification)
+    {
+
+        try {
+            $stmt = $this->runQuery("INSERT INTO reservations (origin, destination, vehicle_capacity, identification)
+                  VALUES('$origin', '$destination', '$vehicle_capacity', '$identification')");
+
+
+            // var_dump(mysqli_stmt_execute($stmt));
+
+            if (mysqli_stmt_execute($stmt)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (mysqli_sql_exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+
+    public function getReservationDetails($id)
+    {
+        try{
+
+            $stmt = $this->runQuery("SELECT * FROM reservations WHERE id = $id");
+
+            mysqli_stmt_execute($stmt);
+
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                return $row;
+            }
+
+        }catch (mysqli_sql_exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+
+    public function editReservation(){
+        $reservation_id = $_POST["reservation_id"];
+
+        $origin = $_POST["origin"];
+        $destination = $_POST["destination"];
+        $vehicle_capacity = $_POST["vehicle_capacity"];
+        $identification = $_POST["identification"];
+
+        $stmt = $this->runQuery("UPDATE reservations SET origin = '$origin' , destination = '$destination' , vehicle_capacity = '$vehicle_capacity' , identification = '$identification' WHERE id = $reservation_id");
+
+        if (mysqli_stmt_execute($stmt)) {
+            return true;
+        }else{
+            return false;
+        }
+   }
 }
 ?>
