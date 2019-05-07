@@ -26,11 +26,14 @@
             <li class="nav-item active">
                 <a class="nav-link" href="../client/ride.php"><i style ="color:darkgrey ;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class=" nav-item active">
-                <a class="nav-link" href="../client/rideform.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-"></i> Request Ride <span class="sr-only">(current)</span> </a>
+            <li class="nav-item active">
+                <a class="nav-link" href="../client/rideform.php"><i style ="color:darkgrey ;"class="fa fa-car"></i> RequestRide <span class="sr-only">(current)</span></a>
             </li>
-            <li class=" nav-item active">
-                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-"></i> Logout <span class="sr-only">(current)</span> </a>
+            <li class="nav-item active">
+                <a class="nav-link" href="../client/list.php"><i style ="color:darkgrey ;"class="fa fa-list"></i>List <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey ;"class="fa fa-sign-out-alt"></i> Logout <span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
@@ -130,8 +133,11 @@
                 <div class="row">
                     <div class="col-sm">
                         <b><h>About</h></b><br/><br/>
-                        <h style="color:grey;font-family: 'Dancing Script', cursive;">>Shareride.Inc is a ride hailing website based in Nairobi, Kenya.</h><br/>
+                        <h style="color:grey;font-family: 'Dancing Script', cursive;">Shareride.Inc is a ride hailing website based in Nairobi, Kenya.</h><br/>
                         <h style="color:grey;font-family: 'Dancing Script', cursive;">we provide safe and reliable transport in the city of Nairobi.</h><br/>
+                        <h style="color:grey;font-family: 'Dancing Script', cursive;">Consequently, we set out to deliver unbeatable quality vehicles to suit unique customer needs.</h><br/>
+                        <h style="color:grey;font-family: 'Dancing Script', cursive;">Today, we guarantee quality service, maximum client satisfaction with unparalleled offer for best value for money to our clients!</h><br/>
+
                         <br/><br/>
 
                     </div>
@@ -154,6 +160,9 @@
                         <h style="color:grey;font-family: 'Dancing Script', cursive;">pnjeru_@shareride.com</h>
                         <h style="color:grey;font-family: 'Dancing Script', cursive;">nshawn@shareride.com</h>
                         <h style="color:grey;font-family: 'Dancing Script', cursive;">lnnderitu@shareride.com</h>
+                        <h style="color:grey;font-family: 'Dancing Script', cursive;">agnes_@shareride.com</h>
+                        <h style="color:grey;font-family: 'Dancing Script', cursive;">sheila..@shareride.com</h>
+                        <h style="color:grey;font-family: 'Dancing Script', cursive;">pmwaura_*@shareride.com</h>
                         <br/><br/>
 
                         <br/><br/><br/><br/><br/>
