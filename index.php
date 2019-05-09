@@ -21,11 +21,11 @@
             <li class="nav-item active">
                 <a class="nav-link" href="index.php"><i style ="color:darkgrey ;"class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class=" nav-item active">
-                <a class="nav-link" href="./auth/register.php"><i style ="color:darkgrey;font-family: 'Merienda', cursive;"class="fa fa-"></i> Register <span class="sr-only">(current)</span> </a>
+            <li class="nav-item active">
+                <a class="nav-link" href="auth/register.php"><i style ="color:darkgrey ;"class="fa fa-registered"></i> Register <span class="sr-only">(current)</span></a>
             </li>
-            <li class=" nav-item active">
-                <a class="nav-link" href="./auth/login.php"><i style ="color:darkgrey;font-family: 'Merienda', cursive;"class="fa fa-"></i> Login <span class="sr-only">(current)</span> </a>
+            <li class="nav-item active">
+                <a class="nav-link" href="auth/login.php"><i style ="color:darkgrey ;"class="fa fa-sign-in-alt"></i> Login <span class="sr-only">(current)</span></a>
             </li>
         </ul>
 
