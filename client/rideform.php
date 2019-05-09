@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
     <div class="wrapper">
-        <h3 class="text-center">Welcome to Shareride.Inc</h3>
+        <h3 class="text-center" style ="color: #00b6bd">Welcome to Shareride.Inc</h3>
 
         <p class="text-center">Fill form .</p>
 

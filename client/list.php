@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         
 
-                <h5 class="card-title"><strong><?php echo $list['origin']; ?></strong></h5>
+                <h5 class="card-title"><strong style="font-weight: 500;font-family: 'Dosis', sans-serif;><?php echo $list['origin']; ?></strong></h5>
 
                 <h5 class="card-title"><strong><?php echo $list['destination']; ?></strong></h5>
 
