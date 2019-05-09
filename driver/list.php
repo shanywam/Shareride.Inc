@@ -8,19 +8,18 @@ if (isset($_SESSION['user'])) {
 
     header('Location: list.php');
 }
-
 $_SESSION['user_type'] = 1;
 
 $form_error = $delete_error = $date = $success_message = '';
 
-$db = new Database();
-
+$db = new Database;
 $conn = $db->dbConnect();
 
 
 $show_form = $giveRide =false;
 $id = $origin = $destination = $vehicle_capacity = $identification  = "";
-$reservation_id = $user_id = '';
+$reservation_id = $user_id = [];
+
 $result = [];
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
@@ -67,15 +66,16 @@ function checkRideGiven($reservation_id)
     return true;
 }
 
-$sql = "select * from reservations";
+$sql = "SELECT * FROM reservations";
 
 $result =mysqli_query($conn, $sql);
 
 
 if(isset($_POST['giveRide'])) {
 
-    $reservation_id = $_POST['reservation_id'];
-    $user_id = $_SESSION['id'];
+    $reservation_id = $_POST['book_id'];
+    //$user_id = $_SESSION[ 4 ];
+    $user_id = 3 ;
     $identification = $_POST['identification'];
 
 
@@ -97,11 +97,20 @@ if(isset($_POST['giveRide'])) {
 <html>
 <head>
     <link rel="stylesheet" href ="../css/bootstrap.min.css"/>
+
     <script src="../https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
     <script src="../https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
     <script src ="../js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Dosis|PT+Sans+Narrow" rel="stylesheet">
+
+    <script type="text/javascript"> $('#myModal').on('shown.bs.modal', function () {
+      $('#myInput').trigger('focus')
+    })</script>
 
     <title>Shareride.Inc &#8211; Kenya&#039;s Taxi App &#8211; Based in Nairobi</title>
 
@@ -123,6 +132,9 @@ if(isset($_POST['giveRide'])) {
                 <li class="nav-item active">
                     <a class="nav-link" href="../driver/list.php"><i style ="color:darkgrey ;"class="fa fa-list"></i>List <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item active">
+                <a class="nav-link" href="../driver/testmail.php"><i style ="color:darkgrey ;"class="fa fa-star-of-david"></i> Status <span class="sr-only">(current)</span></a>
+            </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey ;"class="fa fa-sign-out-alt"></i> Logout <span class="sr-only">(current)</span></a>
                 </li>
@@ -148,11 +160,11 @@ if(isset($_POST['giveRide'])) {
 
         
 
-                <h5 class="card-title"><strong><?php echo $list['origin']; ?></strong></h5>
+                <h5 class="card-title"  ><strong style="font-weight: 500;font-family: 'Dosis', sans-serif;><?php echo $list['origin']; ?></strong></h5>
 
-                <h5 class="card-title"><strong><?php echo $list['destination']; ?></strong></h5>
+                <h5 class="card-title" ><strong ><?php echo $list['destination']; ?></strong></h5>
 
-                <p class="card-text"><small><strong>No of people: </strong><?php echo $list['vehicle_capacity']; ?></small></p>
+                <p class="card-text" ><small><strong>No of people: </strong><?php echo $list['vehicle_capacity']; ?></small></p>
 
                 <h5 class="card-title"><strong><?php echo $list['identification']; ?></strong></h5>
 
@@ -164,10 +176,34 @@ if(isset($_POST['giveRide'])) {
                         <input type="hidden" value="delete_action" name="delete_action">
 
                         <button type="submit" class="btn btn-danger">Delete</button><br>
+                        <!-- Button trigger modal -->
+                        <!-- <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                          Delete
+                        </button>
+
+                        // Modal 
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                You Have Deleted the Request
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
                     </form>
                     <br><br>
             <?php } if ($_SESSION["user_type"] == 1 ) { ?>
-                <? php if (checkRideGiven($list['id'])) { ?> 
+                <?php }if (checkRideGiven($list['id'])) { ?>
                     <p>
                     <form action="list.php" method="POST">
 
@@ -180,7 +216,7 @@ if(isset($_POST['giveRide'])) {
                     </form>
                 </p>
             <?php } else { ?>
-                <p style="font-weight: 400;font-family: 'Dosis', sans-serif;"> Ride Given </p>
+                <p style="font-weight: 500;font-family: 'Dancing Script', cursive; color: white"> Ride Given </p>
             <?php } ?>
             </p>
             </div>

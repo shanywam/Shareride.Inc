@@ -25,14 +25,14 @@
             <li class="nav-item active">
                 <a class="nav-link" href="../driver/drive.php"><i style ="color:darkgrey ;"class="fa fa-home"></i> Home <span class="sr-only" >(current)</span></a>
             </li>
-            <li class=" nav-item active">
-                <a class="nav-link" href="../driver/ridelist.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-"></i> Ridelist <span class="sr-only">(current)</span> </a>
-            </li>
             <li class="nav-item active">
                     <a class="nav-link" href="../driver/list.php"><i style ="color:darkgrey ;"class="fa fa-list"></i>List <span class="sr-only">(current)</span></a>
-                </li>
-            <li class=" nav-item active">
-                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey; font-family: 'Merienda', cursive;"class="fa fa-"></i> Logout <span class="sr-only">(current)</span> </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../driver/testmail.php"><i style ="color:darkgrey ;"class="fa fa-star-of-david"></i> Status <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../auth/logout.php"><i style ="color:darkgrey ;"class="fa fa-sign-out-alt"></i> Logout <span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
