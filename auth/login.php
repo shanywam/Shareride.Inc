@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
     <div class="wrapper">
-        <h2 class="text-center">shareride</h2>
+        <h2 class="text-center" style ="color: #00b6bd">shareride</h2>
         <p class="text-center" style="color: red;"><?php echo $form_err ?></p>
         <form action="login.php" method="post">
             <div class=" <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">

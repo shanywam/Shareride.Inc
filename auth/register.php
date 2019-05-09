@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $phone = trim($_POST["phone"]);
             $pass = password_hash(trim($_POST["password"]), PASSWORD_DEFAULT);
 
-            if ($reg_user->register($first_name, $last_name, $email, $phone, $pass, 2)){
+            if ($reg_user->register($first_name, $last_name, $email, $phone, $pass, 1)){
                 header("location: login.php");
             }else{
                 $form_err = "Please check your details are correct";
@@ -138,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
     <div class="wrapper">
-        <h2 class="text-center">shareride</h2>
+        <h2 class="text-center" style ="color: #00b6bd";>shareride</h2>
 
         <p class="text-center">Please fill this form to create an account.</p>
 
